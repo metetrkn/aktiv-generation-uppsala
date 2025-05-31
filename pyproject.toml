@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "django-sample-project"
+version = "0.1.0"
+description = "A sample Django project using Poetry"
+authors = ["Mete Turkan <metetrkn52@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+django = "^5.0.2"
+python-dotenv = "^1.0.0"
+psycopg2-binary = "^2.9.9"
+psycopg2 = "^2.9.10"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+flake8 = "^7.0.0"
+pytest = "^8.0.0"
+pytest-django = "^4.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api" 
