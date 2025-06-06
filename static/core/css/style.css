@@ -74,89 +74,6 @@ section .title {
     font-family: 'Ubuntu', sans-serif;
 }
 
-/* navbar styling */
-.navbar {
-    position: fixed;
-    background-color: #f1f1f1;
-    width: 100%;
-    z-index: 999;
-    padding: 30px 0;
-    font-family: "Rubik", sans-serif;
-    font-weight: 400;
-    transition: all 0.3s ease;
-}
-
-.navbar.sticky {
-    padding: 15px 0;
-    background: #f0945f;
-}
-
-.navbar .max-width {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.navbar.sticky img {
-    width: 50px;
-    height: 50px;
-    filter: brightness(0) invert(1);
-    transition: all 0.3s ease;
-}
-
-.navbar img {
-    width: 75px;
-    height: 75px;
-    margin: -20px;
-}
-
-.navbar .menu li {
-    list-style: none;
-    display: inline-block;
-}
-
-.navbar .menu li a {
-    display: block;
-    color: #874a4a;
-    font-size: 20px;
-    font-weight: 500;
-    margin-left: 25px;
-    transition: color 0.3s ease;
-}
-
-.navbar .menu li a#outbound-link {
-    color: #2b3058;
-    font-weight: bold;
-    text-decoration: underline;
-    text-shadow: 0 0 2px #fff;
-}
-
-.navbar .menu li a:hover {
-    color: #f0945f;
-    text-shadow: 0 0 2px #fff;
-}
-
-.navbar .menu li a#outbound-link:hover {
-    color: #7eb8da;
-    font-weight: bold;
-}
-
-.navbar.sticky .menu li a {
-    color: #fff;
-}
-
-.navbar.sticky .menu li a#outbound-link {
-    color: #fff;
-}
-
-.navbar.sticky .menu li a:hover {
-    color: #874a4a;
-}
-
-.navbar.sticky .menu li a#outbound-link:hover {
-    color: #874a4a;
-}
-
 /* menu btn styling */
 .menu-btn {
     color: #fff;
@@ -576,31 +493,13 @@ footer span a:hover {
 }
 
 @media (max-width: 947px) {
-    .navbar {
-        padding: 20px 0;
-    }
-
-    .navbar img {
-        margin-left: auto;
-        padding: 5px;
-    }
-
-    .navbar.sticky .menu-btn {
-        color: #f1f1f1;
-    }
-
     .menu-btn {
         display: block;
         z-index: 999;
-        color: #874a4a;
     }
 
     .menu-btn i.active:before {
         content: "\f00d";
-    }
-
-    .navbar.sticky .menu {
-        background-color: #f0945f;
     }
 
     .navbar .menu {
@@ -609,10 +508,11 @@ footer span a:hover {
         width: 100%;
         left: -100%;
         top: 0;
-        background: #f1f1f1;
+        background: #2b3058;
         text-align: center;
-        padding-top: 20px;
+        padding-top: 80px;
         transition: all 0.3s ease;
+        flex-direction: column;
     }
 
     .navbar .menu.active {
@@ -621,12 +521,26 @@ footer span a:hover {
 
     .navbar .menu li {
         display: block;
+        margin: 25px 0;
     }
 
     .navbar .menu li a {
         display: inline-block;
-        margin: 10px 0;
-        font-size: 25px;
+        margin: 13px 0;
+        font-size: 20px;
+        color: #fff;
+    }
+
+    .navbar .menu li a#outbound-link {
+        color: #fff;
+    }
+
+    .navbar.sticky .menu li a {
+        color: #fff;
+    }
+
+    .navbar.sticky .menu li a:hover {
+        color: #f0945f;
     }
 
     .home .home-content .text-2 {
