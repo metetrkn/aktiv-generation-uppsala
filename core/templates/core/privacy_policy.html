@@ -3,91 +3,167 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'core/css/privacy_policy.css' %}">
+<style>
+    .privacy-policy-content section {
+        margin-bottom: 0.75rem;
+    }
+    
+    .privacy-policy-content section h2 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .privacy-policy-content section h3 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .privacy-policy-content section h4 {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .privacy-policy-content section p {
+        margin-bottom: 0.25rem;
+    }
+    
+    .privacy-policy-content section ul {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="privacy-policy-container">
     <div class="privacy-policy-content">
-        <h1>Privacy Policy</h1>
+        <h1>Integritetspolicy</h1>
+        <p class="last-updated">Senast uppdaterad: 9 juni 2025</p>
         
         <section>
-            <h2>Introduction</h2>
-            <p>At Aktiv Generation Uppsala, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website or interact with our services.</p>
+            <p>Denna Integritetspolicy beskriver hur Aktiv Generation Uppsala - Förening samlar in, använder och skyddar dina personuppgifter när du använder vår tjänst. Den förklarar även dina rättigheter enligt gällande dataskyddslagstiftning.</p>
+            <p>Genom att använda tjänsten godkänner du insamling och användning av uppgifter enligt denna policy.</p>
         </section>
 
         <section>
-            <h2>Data Collection</h2>
-            <p>We collect information that you provide directly to us, such as when you:</p>
+            <h2>Definitioner</h2>
+            <p>För denna policy gäller följande definitioner:</p>
             <ul>
-                <li>Contact us through our website</li>
-                <li>Sign up for our newsletter</li>
-                <li>Participate in our activities</li>
-                <li>Make a donation</li>
+                <li><strong>Konto</strong> innebär en unik användarprofil för att komma åt tjänsten.</li>
+                <li><strong>Föreningen</strong> (benämns som "vi", "oss" eller "vår") avser Aktiv Generation Uppsala - Förening, August Södermans Väg 60.</li>
+                <li><strong>Kakor (Cookies)</strong> är små textfiler som lagras på din enhet för att spara inställningar och analysera användning.</li>
+                <li><strong>Land</strong> avser Sverige.</li>
+                <li><strong>Personuppgifter</strong> innebär all information som direkt eller indirekt kan kopplas till en levande person.</li>
+                <li><strong>Tjänsten</strong> avser vår webbplats.</li>
+                <li><strong>Webbplatsen</strong> avser Aktiv Generation Uppsala, tillgänglig via {{ ORG_URL }}.</li>
+                <li><strong>Du</strong> avser den fysiska personen som använder tjänsten.</li>
             </ul>
         </section>
 
         <section>
-            <h2>How We Use Your Information</h2>
-            <p>We use the information we collect to:</p>
+            <h2>Insamling och Användning av Personuppgifter</h2>
+            <h3>Typer av Insamlade Uppgifter</h3>
+            <h4>Personuppgifter</h4>
+            <p>Vi kan be dig ange:</p>
             <ul>
-                <li>Provide and improve our services</li>
-                <li>Communicate with you about our activities</li>
-                <li>Process donations and maintain records</li>
-                <li>Comply with legal obligations</li>
+                <li>E-postadress</li>
+                <li>För- och efternamn</li>
+                <li>Telefonnummer</li>
+                <li>Postadress (ort, postnummer, etc.)</li>
+            </ul>
+
+            <h4>Användningsdata</h4>
+            <p>Automatiskt insamlad data kan inkludera:</p>
+            <ul>
+                <li>IP-adress</li>
+                <li>Webbläsartyp och version</li>
+                <li>Besökta sidor, tid på webbplatsen m.m.</li>
             </ul>
         </section>
 
         <section>
-            <h2>Legal Grounds for Processing</h2>
-            <p>We process your personal data based on:</p>
+            <h2>Spårningstekniker och Kakor</h2>
+            <p>Vi använder kakor (både tillfälliga och permanenta) för grundläggande funktioner, användarinställningar och statistik. Läs mer i vår Cookie Policy.</p>
+        </section>
+
+        <section>
+            <h2>Användning av Dina Uppgifter</h2>
+            <p>Vi kan använda dina uppgifter för att:</p>
             <ul>
-                <li>Your consent</li>
-                <li>Our legitimate interests in operating our organization</li>
-                <li>Legal obligations</li>
+                <li>Tillhandahålla och underhålla tjänsten</li>
+                <li>Hantera ditt konto (om tillämpligt)</li>
+                <li>Kontakta dig (t.ex. nyhetsbrev, säkerhetsuppdateringar)</li>
+                <li>Förbättra tjänsten och analysera användning</li>
             </ul>
+            <p>Vi delar inte dina uppgifter med tredje part för marknadsföring.</p>
         </section>
 
         <section>
-            <h2>Data Retention</h2>
-            <p>We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
+            <h2>Lagring och Raderingspolicy</h2>
+            <p>Personuppgifter sparas endast så länge som nödvändigt (t.ex. enligt lag eller för tjänstens funktion). Du kan begära radering genom att kontakta oss.</p>
         </section>
 
         <section>
-            <h2>Your Rights</h2>
-            <p>You have the right to:</p>
-            <ul>
-                <li>Access your personal data</li>
-                <li>Correct inaccurate data</li>
-                <li>Request deletion of your data</li>
-                <li>Object to processing of your data</li>
-                <li>Data portability</li>
-            </ul>
+            <h2>Upplysning av Uppgifter</h2>
+            <p>Vi kan lämna ut uppgifter om lagligen skyldiga (t.ex. domstolsbeslut, myndighetskrav).</p>
         </section>
 
         <section>
-            <h2>Cookies</h2>
-            <p>We use cookies to improve your browsing experience. You can control cookie settings through your browser preferences.</p>
+            <h2>Dataskydd</h2>
+            <p>Vi tillämpar säkerhetsåtgärder, men ingen överföring på nätet är 100% säker.</p>
         </section>
 
         <section>
-            <h2>Security</h2>
-            <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+            <h2>Integritet för Barn</h2>
+            <p>Tjänsten riktar sig inte till användare under 16 år. Uppgifter insamlade av misstag från barn raderas omedelbart.</p>
         </section>
 
         <section>
-            <h2>Changes to This Policy</h2>
-            <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+            <h2>Länkar till Externa Webbplatser</h2>
+            <p>Vi ansvarar inte för integritetspraxis på tredje parts webbplatser.</p>
         </section>
 
         <section>
-            <h2>Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-            <p>Email: {{ ORG_EMAIL }}<br>
-            Phone: {{ ORG_PHONE }}<br>
-            Address: {{ ORG_STREET }}, {{ ORG_POSTAL_CODE }} {{ ORG_CITY }}</p>
+            <h2>Ändringar av Policyn</h2>
+            <p>Uppdateringar meddelas via e-post eller på webbplatsen. "Senast uppdaterad"-datumet ändras därefter.</p>
+        </section>
+
+        <section>
+            <h2>Kontakt</h2>
+            <p>För frågor eller registerutdrag:</p>
+            <p>
+                E-post: {{ ORG_EMAIL }}<br>
+                Telefon: {{ ORG_PHONE }}<br>
+                Adress: {{ ORG_STREET }}, {{ ORG_POSTAL_CODE }} {{ ORG_CITY }}
+            </p>
         </section>
     </div>
 </div>
+
+<a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<script>
+    // Back to top button functionality
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
 {% endblock %}
 
 {% block any_other_blocks %}
