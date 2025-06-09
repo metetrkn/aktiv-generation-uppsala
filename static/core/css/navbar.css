@@ -2,15 +2,16 @@
 .navbar {
     position: fixed;
     width: 100%;
-    z-index: 999;
-    padding: 15px 0;
-    background: transparent;
+    z-index: 9999;
+    padding: 25px 0;
+    background: #1a1d3d !important;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar.sticky {
-    padding: 15px 0;
-    background: #2b3058;
+    padding: 10px 0;
+    background: #1a1d3d !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -33,13 +34,13 @@
 }
 
 .navbar .logo img {
-    height: 50px;
+    height: 60px;
     width: auto;
     transition: all 0.3s ease;
 }
 
 .navbar.sticky .logo img {
-    height: 45px;
+    height: 40px;
 }
 
 /* Menu Styles */
@@ -58,11 +59,11 @@
 
 .navbar .menu li a {
     display: block;
-    color: #874a4a;
-    font-size: 18px;
+    color: #f0945f !important;
+    font-size: 20px;
     font-weight: 500;
     margin-left: 25px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
     position: relative;
 }
@@ -85,19 +86,20 @@
 
 /* Special Link Styles */
 .navbar .menu li a#outbound-link {
-    color: #2b3058;
+    color: #f0945f !important;
     font-weight: bold;
     text-decoration: underline;
     text-shadow: 0 0 2px #fff;
 }
 
 .navbar .menu li a#outbound-link:hover {
-    color: #7eb8da;
+    color: #fff !important;
 }
 
 /* Sticky Navbar Styles */
 .navbar.sticky .menu li a {
-    color: #fff;
+    font-size: 16px;
+    margin-left: 20px;
 }
 
 .navbar.sticky .menu li a:hover {
@@ -145,7 +147,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: #fff;
+    background: #1a1d3d;
     min-width: 120px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
@@ -169,7 +171,7 @@
 }
 
 .language-dropdown li a {
-    color: #2b3058;
+    color: #f0945f !important;
     padding: 8px 20px;
     display: block;
     font-size: 16px;
@@ -178,8 +180,8 @@
 }
 
 .language-dropdown li a:hover {
-    background: #f5f5f5;
-    color: #f0945f;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
 }
 
 /* Sticky Navbar Language Styles */
@@ -213,7 +215,7 @@
         width: 100%;
         left: -100%;
         top: 0;
-        background: #2b3058;
+        background: #1a1d3d;
         text-align: center;
         padding-top: 80px;
         transition: all 0.3s ease;
@@ -233,11 +235,11 @@
         display: inline-block;
         margin: 13px 0;
         font-size: 20px;
-        color: #fff;
+        color: #f0945f !important;
     }
 
     .navbar .menu li a#outbound-link {
-        color: #fff;
+        color: #f0945f !important;
     }
 
     .navbar.sticky .menu li a {
