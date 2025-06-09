@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/privacy_policy.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="privacy-policy-container">
+    <div class="privacy-policy-content">
+        <h1>Privacy Policy</h1>
+        
+        <section>
+            <h2>Introduction</h2>
+            <p>At Aktiv Generation Uppsala, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website or interact with our services.</p>
+        </section>
+
+        <section>
+            <h2>Data Collection</h2>
+            <p>We collect information that you provide directly to us, such as when you:</p>
+            <ul>
+                <li>Contact us through our website</li>
+                <li>Sign up for our newsletter</li>
+                <li>Participate in our activities</li>
+                <li>Make a donation</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>How We Use Your Information</h2>
+            <p>We use the information we collect to:</p>
+            <ul>
+                <li>Provide and improve our services</li>
+                <li>Communicate with you about our activities</li>
+                <li>Process donations and maintain records</li>
+                <li>Comply with legal obligations</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Legal Grounds for Processing</h2>
+            <p>We process your personal data based on:</p>
+            <ul>
+                <li>Your consent</li>
+                <li>Our legitimate interests in operating our organization</li>
+                <li>Legal obligations</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Data Retention</h2>
+            <p>We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
+        </section>
+
+        <section>
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal data</li>
+                <li>Correct inaccurate data</li>
+                <li>Request deletion of your data</li>
+                <li>Object to processing of your data</li>
+                <li>Data portability</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Cookies</h2>
+            <p>We use cookies to improve your browsing experience. You can control cookie settings through your browser preferences.</p>
+        </section>
+
+        <section>
+            <h2>Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+        </section>
+
+        <section>
+            <h2>Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+            <p>Email: {{ ORG_EMAIL }}<br>
+            Phone: {{ ORG_PHONE }}<br>
+            Address: {{ ORG_STREET }}, {{ ORG_POSTAL_CODE }} {{ ORG_CITY }}</p>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block any_other_blocks %}
+    <!-- Empty all other blocks -->
+{% endblock %}
