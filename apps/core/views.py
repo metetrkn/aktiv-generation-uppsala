@@ -11,3 +11,6 @@ from django.conf import settings
 
 def privacy_policy(request):
     return render(request, 'core/privacy_policy.html')
+
+def cookies(request):
+    return render(request, 'core/cookies.html')
