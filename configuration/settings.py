@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'apps.core',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.organization_info',
+                'apps.core.context_processors.organization_info',
             ],
         },
     },
@@ -160,7 +160,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'apps' / 'core' / 'static',
 ]
 
 # Media files
