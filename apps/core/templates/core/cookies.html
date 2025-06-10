@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/cookies.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="cookies-container">
+    <div class="cookies-content">
+        <h1>Kakor Policy</h1>
+        <p class="last-updated">Senast uppdaterad: 10 juni 2025</p>
+        
+        <section>
+            <p>Denna webbplats <strong>använder inte</strong> cookies direkt. Vi sätter eller lagrar inga cookies på din enhet.</p>
+            <p>Dock kan vissa tredjepartstjänster eller inbäddat innehåll (som analysverktyg, mediaspelare eller externa bibliotek) använda cookies utanför vår kontroll. Vi ansvarar inte för cookies som sätts av dessa tredje part.</p>
+            <p>Vi rekommenderar att du granskar cookie-policyerna för eventuella tredjepartstjänster du interagerar med via vår webbplats.</p>
+        </section>
+
+        <section>
+            <h2>Vad är cookies?</h2>
+            <p>Cookies är små textfiler som lagras på din enhet när du besöker en webbplats. De hjälper oss att förbättra webbplatsens funktionalitet och analysera användningen.</p>
+        </section>
+
+        <section>
+            <h2>Hantering av cookies</h2>
+            <p>Du kan kontrollera och/eller ta bort cookies som du önskar. De flesta webbläsare låter dig:</p>
+            <ul>
+                <li>Ta bort alla cookies</li>
+                <li>Blockera tredjepartscookies</li>
+                <li>Rensa cookies när webbläsaren stängs</li>
+                <li>Ställa in preferenser per webbplats</li>
+            </ul>
+            <p>För mer information, besök <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer">www.allaboutcookies.org</a>.</p>
+        </section>
+    </div>
+</div>
+
+<a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<script>
+    // Back to top button functionality
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+{% endblock %}
+
+{% block any_other_blocks %}
+    <!-- Empty all other blocks -->
+{% endblock %} 
