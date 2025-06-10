@@ -14,6 +14,7 @@ admin.site.index_title = "Welcome to Aktiv Generation Admin Portal"
 urlpatterns = [
     path('supadmin/', admin.site.urls),
     path('', include('apps.core.urls')),
+    path('mejla-oss/', include('apps.mail.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'mail/css/mail-us.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mail-us-container">
+    <div class="mail-us-content">
+        <h1>Kontakta Oss</h1>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <h3>E-post</h3>
+                <p>{{ ORG_EMAIL }}</p>
+            </div>
+            
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <h3>Telefon</h3>
+                <p>{{ ORG_PHONE }}</p>
+            </div>
+            
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Adress</h3>
+                <p>{{ ORG_STREET }}<br>{{ ORG_POSTAL_CODE }} {{ ORG_CITY }}</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Skicka ett meddelande</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Namn</label>
+                    <input type="text" id="name" name="name" placeholder="Ditt namn (valfritt)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-post</label>
+                    <input type="email" id="email" name="email" placeholder="Din e-post (valfritt)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Ämne</label>
+                    <input type="text" id="subject" name="subject" placeholder="Ämne (valfritt)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Meddelande</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Skriv ditt meddelande här..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Skicka</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block any_other_blocks %}
+    <!-- Empty all other blocks -->
+{% endblock %} 
