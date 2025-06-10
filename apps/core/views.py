@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.conf import settings
 
 def privacy_policy(request):
-    return render(request, 'core/privacy_policy.html')
+    return render(request, 'core/includes/privacy_policy.html')
 
 def cookies(request):
-    return render(request, 'core/cookies.html')
+    return render(request, 'core/includes/cookies.html')
