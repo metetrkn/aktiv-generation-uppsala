@@ -4,7 +4,7 @@
     width: 100%;
     z-index: 9999;
     padding: 25px 0;
-    background: #1a1d3d !important;
+    background: #ddd8d8 !important;
     transition: all 0.3s ease;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
