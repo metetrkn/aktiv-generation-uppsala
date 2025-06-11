@@ -8,7 +8,6 @@ class Message(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     is_read = models.BooleanField(default=False)
-    is_replied = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']
