@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from .models import Message
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,22 +14,29 @@ def mail_us(request):
         name = request.POST.get('name', 'Anonym')  # Default to 'Anonym' if no name provided
         email = request.POST.get('email', 'Ingen e-post angiven')  # Default message if no email provided
         subject = request.POST.get('subject', 'Inget ämne')
-        message = request.POST.get('message')
+        message_text = request.POST.get('message')
         
         # Create the email content
         email_subject = f'Meddelande från webbplatsen: {subject}'
-        email_message = f"""
-        Ett nytt meddelande har skickats från webbplatsen.
+        email_message = (
+            f"Ett nytt meddelande har skickats från webbplatsen\n\n"
+            f"Från: {name}\n"
+            f"E-post: {email}\n"
+            f"Ämne: {subject}\n\n"
 
-        Från: {name}
-        E-post: {email}
-        Ämne: {subject}
-
-        Meddelande:
-        {message}
-        """
+            f"Meddelande:\n"
+            f"{message_text}"
+        )
         
         try:
+            # Save message to database
+            Message.objects.create(
+                name=name if name != 'Anonym' else None,
+                email=email if email != 'Ingen e-post angiven' else None,
+                subject=subject if subject != 'Inget ämne' else None,
+                message=message_text
+            )
+            
             # Log the attempt to send email
             logger.info(f"Attempting to send email to {settings.ORG_EMAIL}")
             logger.info(f"Using EMAIL_HOST_USER: {settings.EMAIL_HOST_USER}")
