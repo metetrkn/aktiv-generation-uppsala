@@ -93,6 +93,11 @@ class MessageAdmin(admin.ModelAdmin):
             return self.response_post_save_change(request, obj)
         return super().response_change(request, obj)
 
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['show_save_and_continue'] = False
+        return super().change_view(request, object_id, form_url, extra_context=extra_context)
+
     class Media:
         css = {
             'all': ('admin/css/message_admin.css',)
