@@ -43,41 +43,41 @@
     border-color: #f5c6cb;
 }
 
-.contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
-}
-
-.contact-item {
-    text-align: center;
+/* Original message styles */
+.original-message {
+    margin-bottom: 40px;
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    border: 1px solid #dee2e6;
 }
 
-.contact-item:hover {
-    transform: translateY(-5px);
-}
-
-.contact-item i {
-    font-size: 2rem;
-    color: #007bff;
-    margin-bottom: 15px;
-}
-
-.contact-item h3 {
+.original-message h2 {
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
-.contact-item p {
+.message-details {
     color: #666;
+}
+
+.message-details p {
+    margin-bottom: 10px;
     line-height: 1.6;
 }
 
+.message-content {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.message-content p {
+    white-space: pre-wrap;
+}
+
+/* Form styles */
 .contact-form {
     max-width: 800px;
     margin: 0 auto;
@@ -100,6 +100,10 @@
     font-weight: 500;
 }
 
+.form-group .required {
+    color: #dc3545;
+}
+
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -114,6 +118,17 @@
 .form-group textarea:focus {
     outline: none;
     border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-group input:invalid,
+.form-group textarea:invalid {
+    border-color: #dc3545;
+}
+
+.form-group input[readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
 }
 
 .submit-btn {
@@ -135,20 +150,24 @@
     background-color: #0056b3;
 }
 
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
 @media (max-width: 768px) {
     .mail-us-container {
         padding: 100px 15px 40px;
     }
-
+    
     .mail-us-content {
         padding: 20px;
     }
-
+    
     .mail-us-content h1 {
         font-size: 2rem;
     }
-
-    .contact-info {
-        grid-template-columns: 1fr;
+    
+    .original-message {
+        padding: 15px;
     }
 }
