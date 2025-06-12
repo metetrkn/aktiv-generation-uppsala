@@ -1,9 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from .models import Message
 import logging
+from dotenv import load_dotenv
+import os
+from email.message import EmailMessage
+import smtplib
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -57,3 +67,52 @@ def mail_us(request):
             messages.error(request, 'Ett fel uppstod när meddelandet skulle skickas. Vänligen försök igen senare.')
             
     return render(request, 'mail/mail-us.html') 
+
+def mail_reply(request, message_id):
+    # Get the original message
+    original_message = get_object_or_404(Message, id=message_id)
+    
+    if request.method == 'POST':
+        # Get reply details from the form
+        reply_subject = request.POST.get('subject', f"Re: {original_message.subject or 'Meddelande från webbplatsen'}")
+        reply_text = request.POST.get('message')
+        
+        if not reply_text:
+            messages.error(request, 'Svaret kan inte vara tomt.')
+            return render(request, 'mail/mail-reply.html', {'original_message': original_message})
+        
+        try:
+            # Get email credentials from environment variables
+            gmail_address = os.getenv('EMAIL_HOST_USER')
+            app_password = os.getenv('EMAIL_HOST_PASSWORD')
+            
+            # Create the email
+            msg = EmailMessage()
+            msg['Subject'] = reply_subject
+            msg['From'] = gmail_address
+            msg['To'] = original_message.email  # Use the email from the original message
+            msg.set_content(reply_text)
+            
+            # Send the email
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                smtp.login(gmail_address, app_password)
+                smtp.send_message(msg)
+            
+            # Mark the original message as read
+            original_message.is_read = True
+            original_message.save()
+            
+            messages.success(request, 'Ditt svar har skickats.')
+            return redirect('admin:mail_message_changelist')
+            
+        except Exception as e:
+            logger.error(f"Failed to send reply: {str(e)}")
+            messages.error(request, 'Ett fel uppstod när svaret skulle skickas. Vänligen försök igen senare.')
+    
+    # For GET requests, show the reply form with the original message
+    return render(request, 'mail/mail-reply.html', {
+        'original_message': original_message,
+        'default_subject': f"Re: {original_message.subject or 'Meddelande från webbplatsen'}"
+    }) 
+        
+        

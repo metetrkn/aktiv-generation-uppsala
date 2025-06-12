@@ -4,7 +4,9 @@
 {% block submit_buttons_bottom %}
     {{ block.super }}
     {% if original and original.email %}
-        <a class="button" style="margin-left: 13px; background: #007bff; color: white; padding: 6px 9px; font-size: 14px; text-transform: uppercase;" href="mailto:{{ original.email }}?subject=Re: {{ original.subject|default:'Meddelande från webbplatsen' }}&body={% filter force_escape %}\n\n---\nFrom: {{ original.name|default:'Anonym' }} <{{ original.email|default:'Ingen e-post' }}>\nDate: {{ original.created_at|date:'D, d M Y H:i' }}\nSubject: {{ original.subject|default:'' }}\n\n{% for line in original.message.splitlines %}> {{ line }}\n{% endfor %}{% endfilter %}">
+        <a class="button" 
+           style="margin-left: 13px; background: #007bff; color: white; padding: 6px 9px; font-size: 14px; text-transform: uppercase; text-decoration: none; display: inline-block; cursor: pointer;" 
+           href="{% url 'mail:mail_reply' original.id %}">
             REPLY
         </a>
     {% endif %}

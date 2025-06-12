@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'mail/css/mail-us.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mail-us-container">
+    <div class="mail-us-content">
+        <h1>Svara på Meddelande</h1>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="original-message">
+            <h2>Originalmeddelande</h2>
+            <div class="message-details">
+                <p><strong>Från:</strong> {{ original_message.name|default:"Anonym" }}</p>
+                <p><strong>E-post:</strong> {{ original_message.email|default:"Ingen e-post angiven" }}</p>
+                <p><strong>Ämne:</strong> {{ original_message.subject|default:"Inget ämne" }}</p>
+                <p><strong>Datum:</strong> {{ original_message.created_at|date:"d F Y H:i" }}</p>
+                <div class="message-content">
+                    <p><strong>Meddelande:</strong></p>
+                    <p>{{ original_message.message }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Skriv ditt svar</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="subject">Ämne</label>
+                    <input type="text" id="subject" name="subject" value="Re: {{ original_message.subject|default:'Meddelande från webbplatsen' }}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Svar <span class="required">*</span></label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Skriv ditt svar här..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Skicka svar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block any_other_blocks %}
+    <!-- Empty all other blocks -->
+{% endblock %} 
