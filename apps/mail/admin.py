@@ -7,6 +7,8 @@ from .models import Message
 import os
 import base64
 import logging
+from django.utils import timezone
+import pytz
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +26,7 @@ class MessageAdmin(admin.ModelAdmin):
             'fields': ('is_read',)
         }),
     )
+    actions = ['generate_reply_template']
 
     def sender_info(self, obj):
         if obj.name and obj.email:
@@ -44,12 +47,12 @@ class MessageAdmin(admin.ModelAdmin):
     def reply_button(self, obj):
         if obj.email:
             return format_html(
-                '<a class="button" href="mailto:{}?subject=Re: {}">Svara</a>',
+                '<a class="button" href="mailto:{}?subject=Re: {}">Reply</a>',
                 obj.email,
                 obj.subject or 'Meddelande från webbplatsen'
             )
         return "Ingen e-post"
-    reply_button.short_description = 'Svara'
+    reply_button.short_description = 'Reply'
 
     def save_model(self, request, obj, form, change):
         if 'is_read' in form.changed_data and obj.is_read:
@@ -97,6 +100,36 @@ class MessageAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         extra_context['show_save_and_continue'] = False
         return super().change_view(request, object_id, form_url, extra_context=extra_context)
+
+    def format_reply_message(self, reply_text, original_message):
+        """
+        Formats a reply email in plain text, Gmail-style.
+        reply_text: The admin's reply (string)
+        original_message: Message instance
+        Returns: formatted string
+        """
+        # Format date/time
+        dt = original_message.created_at
+        if timezone.is_naive(dt):
+            dt = timezone.make_aware(dt, timezone.get_default_timezone())
+        dt_str = dt.strftime('%a, %d %b %Y %H:%M')
+        # Compose metadata
+        meta = f"From: {original_message.name or 'Anonym'} <{original_message.email or 'Ingen e-post'}>\nDate: {dt_str}\nSubject: {original_message.subject or ''}"
+        # Quote original message
+        quoted = '\n'.join([f"> {line}" for line in (original_message.message or '').splitlines()])
+        # Compose full reply
+        return f"{reply_text}\n\n---\n{meta}\n\n{quoted}"
+
+    def generate_reply_template(self, request, queryset):
+        if queryset.count() != 1:
+            self.message_user(request, "Please select exactly one message to generate a reply template.", level='warning')
+            return
+        obj = queryset.first()
+        # Example reply text placeholder
+        reply_text = "Your reply here."
+        formatted = self.format_reply_message(reply_text, obj)
+        self.message_user(request, f"\n\n{formatted}", level='info')
+    generate_reply_template.short_description = "Generate plain text reply template (Gmail style)"
 
     class Media:
         css = {
