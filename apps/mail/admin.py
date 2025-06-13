@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('sender_info', 'subject', 'created_at', 'status', 'reply_button')
+    list_display = ('sender_info', 'subject', 'created_at', 'status')
     list_filter = ('is_read', 'created_at')
     search_fields = ('name', 'email', 'subject', 'message')
     readonly_fields = ('name', 'email', 'subject', 'message', 'created_at')
