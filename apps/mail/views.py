@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from .models import Message
+from .models import Message, AdminReply
 import logging
 from dotenv import load_dotenv
 import os
@@ -97,6 +97,13 @@ def mail_reply(request, message_id):
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                 smtp.login(gmail_address, app_password)
                 smtp.send_message(msg)
+            
+            # Save the admin's reply to the database
+            AdminReply.objects.create(
+                answer_id=original_message.id,
+                subject=reply_subject,
+                message=reply_text
+            )
             
             # Mark the original message as read
             original_message.is_read = True

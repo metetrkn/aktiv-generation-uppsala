@@ -16,3 +16,17 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Meddelande från {self.name or 'Anonym'} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+
+class AdminReply(models.Model):
+    answer_id = models.IntegerField()  # Stores the ID of the original message
+    subject = models.CharField(max_length=200)
+    message = models.TextField()  # The admin's reply message
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Admin Svar'
+        verbose_name_plural = 'Admin Svar'
+
+    def __str__(self):
+        return f"Svar på meddelande {self.answer_id} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
