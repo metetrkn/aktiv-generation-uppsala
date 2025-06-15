@@ -1,3 +1,4 @@
+# This file contains the views for handling mail-related HTTP requests, such as sending messages and replying to them.
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
@@ -17,7 +18,10 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-# To handle HTTP requests and responses in home page
+# View to handle the contact form on the home page
+# Allows users to send messages to the organization
+# Saves the message to the database and sends an email notification
+# Handles both GET (show form) and POST (process form) requests
 def mail_us(request):
     if request.method == 'POST':
         # Get the message details from the form
@@ -26,14 +30,13 @@ def mail_us(request):
         subject = request.POST.get('subject', 'Inget ämne')
         message_text = request.POST.get('message')
         
-        # Create the email content
+        # Create the email content to be sent to the organization
         email_subject = f'Meddelande från webbplatsen: {subject}'
         email_message = (
             f"Ett nytt meddelande har skickats från webbplatsen\n\n"
             f"Från: {name}\n"
             f"E-post: {email}\n"
             f"Ämne: {subject}\n\n"
-
             f"Meddelande:\n"
             f"{message_text}"
         )
@@ -66,10 +69,13 @@ def mail_us(request):
             logger.error(f"Failed to send email: {str(e)}")
             messages.error(request, 'Ett fel uppstod när meddelandet skulle skickas. Vänligen försök igen senare.')
             
+    # Render the contact form template
     return render(request, 'mail/mail-us.html') 
 
+# View to handle admin replies to user messages
+# Allows an admin to reply to a specific message by email and save the reply in the database
 def mail_reply(request, message_id):
-    # Get the original message
+    # Get the original message by ID, or return 404 if not found
     original_message = get_object_or_404(Message, id=message_id)
     
     if request.method == 'POST':
@@ -78,6 +84,7 @@ def mail_reply(request, message_id):
         reply_text = request.POST.get('message')
         
         if not reply_text:
+            # If the reply is empty, show an error and re-render the form
             messages.error(request, 'Svaret kan inte vara tomt.')
             return render(request, 'mail/mail-reply.html', {'original_message': original_message})
         
@@ -86,14 +93,14 @@ def mail_reply(request, message_id):
             gmail_address = os.getenv('EMAIL_HOST_USER')
             app_password = os.getenv('EMAIL_HOST_PASSWORD')
             
-            # Create the email
+            # Create the email message to be sent as a reply
             msg = EmailMessage()
             msg['Subject'] = reply_subject
             msg['From'] = gmail_address
             msg['To'] = original_message.email  # Use the email from the original message
             msg.set_content(reply_text)
             
-            # Send the email
+            # Send the email using SMTP with SSL
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                 smtp.login(gmail_address, app_password)
                 smtp.send_message(msg)
@@ -113,6 +120,7 @@ def mail_reply(request, message_id):
             return redirect('admin:mail_message_changelist')
             
         except Exception as e:
+            # Log the error if sending the reply fails
             logger.error(f"Failed to send reply: {str(e)}")
             messages.error(request, 'Ett fel uppstod när svaret skulle skickas. Vänligen försök igen senare.')
     

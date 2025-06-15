@@ -1,5 +1,6 @@
 """
 Django settings for configuration project.
+This file contains all the configuration for the Django project, including security, database, internationalization, and app settings.
 """
 
 from pathlib import Path
@@ -20,9 +21,10 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG')
 
+# List of allowed hosts for the application
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
 
-# Security Settings
+# Security Settings for production
 if not DEBUG:
     # HTTPS settings
     SESSION_COOKIE_SECURE = True
@@ -41,7 +43,7 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
 
-# Organization Information
+# Organization Information (used in templates and emails)
 ORG_NAME = os.environ.get('ORG_NAME')
 ORG_EMAIL = os.environ.get('ORG_EMAIL')
 ORG_PHONE = os.environ.get('ORG_PHONE')
@@ -52,12 +54,12 @@ ORG_POSTAL_CODE = os.environ.get('ORG_POSTAL_CODE')
 ORG_URL = os.environ.get('ORG_URL')
 ORG_DESCRIPTION = os.environ.get('ORG_DESCRIPTION')
 
-# Social Media
+# Social Media links for the organization
 ORG_YOUTUBE = os.environ.get('ORG_YOUTUBE')
 ORG_FACEBOOK = os.environ.get('ORG_FACEBOOK')
 ORG_INSTAGRAM = os.environ.get('ORG_INSTAGRAM')
 
-# Application definition
+# Application definition: list of installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,9 +71,11 @@ INSTALLED_APPS = [
     'apps.mail.apps.MailConfig',
 ]
 
+# Middleware configuration: handles security, sessions, localization, etc.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Handles language selection
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,8 +83,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# URL configuration for the project
 ROOT_URLCONF = 'configuration.urls'
 
+# Template settings: directories, context processors, etc.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -98,9 +104,10 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application entry point
 WSGI_APPLICATION = 'configuration.wsgi.application'
 
-# Database
+# Database configuration: uses environment variables for flexibility
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE'),
@@ -112,6 +119,7 @@ DATABASES = {
         'CONN_MAX_AGE': 60,  # Connection timeout in seconds
         'OPTIONS': {
             'connect_timeout': 10,  # Connection attempt timeout
+            'client_encoding': 'UTF8',  # Set client encoding to UTF-8
         },
         'TEST': {
             'NAME': os.environ.get('TEST_DB_NAME', 'test_db'),
@@ -125,7 +133,7 @@ missing_settings = [setting for setting in required_db_settings if not os.enviro
 if missing_settings:
     raise ValueError(f"Missing required database settings: {', '.join(missing_settings)}")
 
-# Database security settings
+# Database security settings for production
 if not DEBUG:
     DATABASES['default']['OPTIONS'].update({
         'sslmode': 'verify-full',  # Strict SSL verification in production
@@ -135,7 +143,7 @@ else:
         'sslmode': 'prefer',  # Use SSL if available, but don't require it in development
     })
 
-# Password validation
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -151,27 +159,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
+# Internationalization settings
+LANGUAGE_CODE = 'en-us'  # Default language
+TIME_ZONE = 'UTC'  # Default timezone
+USE_I18N = True  # Enable internationalization
+USE_L10N = True  # Enable localization
+USE_TZ = True    # Enable timezone support
 
-# Static files (CSS, JavaScript, Images)
+# Character encoding settings for all files and responses
+DEFAULT_CHARSET = 'utf-8'
+FILE_CHARSET = 'utf-8'
+
+# Static files (CSS, JavaScript, Images) configuration
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'apps' / 'core' / 'static',
 ]
 
-# Media files
+# Media files configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
+# Default primary key field type for models
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email settings
+# Email settings for sending emails from the application
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -180,7 +193,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# Add logging configuration
+# Logging configuration for debugging and monitoring
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
