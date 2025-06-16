@@ -1,5 +1,13 @@
 """
-URL configuration for configuration project.
+URL Configuration for the Django project.
+
+This module defines the URL patterns for the entire project, including:
+- Admin interface URLs
+- Core application URLs
+- Mail application URLs
+- Static and media file serving in development
+
+The URL patterns are organized by application and follow Django's URL routing best practices.
 """
 from django.contrib import admin
 from django.urls import path, include

@@ -1,3 +1,20 @@
+"""
+Mail Application Views.
+
+This module contains the view functions and classes for the mail application.
+It handles all email-related functionality, including:
+- Email template rendering
+- Email sending
+- Email tracking
+- Mail-related form processing
+
+The views are responsible for:
+- Processing email-related requests
+- Managing email templates
+- Handling email sending logic
+- Tracking email status
+"""
+
 # This file contains the views for handling mail-related HTTP requests, such as sending messages and replying to them.
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail

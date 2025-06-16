@@ -1,5 +1,11 @@
 """
-WSGI config for configuration project.
+WSGI Configuration for the Django project.
+
+This module exposes the WSGI callable as a module-level variable named 'application'.
+It is used by the WSGI server (e.g., Gunicorn, uWSGI) to run the Django application.
+
+The WSGI application is configured to use the project's settings module and
+handles the interface between the web server and the Django application.
 """
 
 import os
