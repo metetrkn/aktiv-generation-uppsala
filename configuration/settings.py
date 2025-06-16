@@ -1,6 +1,19 @@
 """
 Django settings for configuration project.
-This file contains all the configuration for the Django project, including security, database, internationalization, and app settings.
+
+This file contains all the configuration for the Django project, including:
+- Security settings (SSL, HSTS, CSRF, etc.)
+- Database configuration
+- Internationalization settings
+- Static and media files configuration
+- Email settings
+- Logging configuration
+- Organization-specific settings
+
+The settings are environment-aware and will automatically adjust based on:
+- DEBUG mode (development vs production)
+- Environment variables
+- Host configuration
 """
 
 from pathlib import Path

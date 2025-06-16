@@ -1,3 +1,16 @@
+"""
+Core Application Models.
+
+This module defines the database models for the core application, including:
+- Organization information and settings
+- Contact information
+- Social media links
+- Site configuration
+
+These models are used to store and manage the core data of the application,
+including organization details that are used throughout the site.
+"""
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 

@@ -1,3 +1,16 @@
+"""
+Core Application Context Processors.
+
+This module contains context processors that add data to the template context
+for all templates in the project. The context processors are responsible for:
+- Adding organization information to all templates
+- Providing global template variables
+- Making common data available throughout the application
+
+These processors ensure that important data is consistently available
+across all templates without having to pass it explicitly in each view.
+"""
+
 from django.conf import settings
 
 def organization_info(request):

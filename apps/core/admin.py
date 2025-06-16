@@ -1,3 +1,18 @@
+"""
+Core Application Admin Configuration.
+
+This module configures the Django admin interface for the core application models.
+It defines how the models are displayed and managed in the Django admin site,
+including:
+- Model registration
+- Custom admin classes
+- Admin interface customization
+- Inline admin configurations
+
+The admin interface is designed to provide an intuitive and efficient way to
+manage the core application's data.
+"""
+
 from django.contrib import admin
 from .models import Organization, Activity
 

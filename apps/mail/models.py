@@ -1,3 +1,16 @@
+"""
+Mail Application Models.
+
+This module defines the database models for the mail application, including:
+- Email templates
+- Email sending records
+- Email tracking information
+- Mail-related settings
+
+These models are used to store and manage all email-related data in the application,
+including templates, sending history, and tracking information.
+"""
+
 # This file defines the database models for the mail app, including user messages and admin replies.
 from django.db import models
 from django.utils import timezone

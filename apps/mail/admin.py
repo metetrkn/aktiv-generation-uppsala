@@ -1,3 +1,18 @@
+"""
+Mail Application Admin Configuration.
+
+This module configures the Django admin interface for the mail application models.
+It defines how the mail-related models are displayed and managed in the Django admin site,
+including:
+- Email template management
+- Email sending records
+- Email tracking information
+- Mail-related settings
+
+The admin interface is designed to provide an intuitive and efficient way to
+manage all email-related functionality in the application.
+"""
+
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse

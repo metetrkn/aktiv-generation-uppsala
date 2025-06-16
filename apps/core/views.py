@@ -1,3 +1,16 @@
+"""
+Core Application Views.
+
+This module contains the view functions and classes for the core application.
+It handles the main page views and any core functionality views that don't
+belong to other specific applications.
+
+The views are responsible for:
+- Rendering the main pages
+- Handling core application logic
+- Processing user requests
+"""
+
 from django.shortcuts import render
 from django.utils import timezone
 from django.http import HttpResponse 
