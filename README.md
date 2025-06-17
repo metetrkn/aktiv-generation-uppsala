@@ -1,3 +1,11 @@
+# Project management
+✅ Architecture:
+GitHub → Codebase
+
+Render → CI/CD + Web App Hosting
+
+Railway (or another service) → Database Hosting
+
 # Django Sample Project
 
 This is a sample Django project using Poetry for dependency management.
