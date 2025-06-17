@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.core.apps.CoreConfig',
     'apps.mail.apps.MailConfig',
+    'apps.photo.apps.PhotoConfig',
 ]
 
 # Middleware configuration: handles security, sessions, localization, etc.
@@ -123,20 +124,15 @@ WSGI_APPLICATION = 'configuration.wsgi.application'
 # Database configuration: uses environment variables for flexibility
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
-        'CONN_MAX_AGE': 60,  # Connection timeout in seconds
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
         'OPTIONS': {
-            'connect_timeout': 10,  # Connection attempt timeout
-            'client_encoding': 'UTF8',  # Set client encoding to UTF-8
-        },
-        'TEST': {
-            'NAME': os.environ.get('TEST_DB_NAME', 'test_db'),
-        },
+            'sslmode': 'disable'  # Explicitly disable SSL for local development
+        }
     }
 }
 
@@ -145,16 +141,6 @@ required_db_settings = ['DB_ENGINE', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']
 missing_settings = [setting for setting in required_db_settings if not os.environ.get(setting)]
 if missing_settings:
     raise ValueError(f"Missing required database settings: {', '.join(missing_settings)}")
-
-# Database security settings for production
-if not DEBUG:
-    DATABASES['default']['OPTIONS'].update({
-        'sslmode': 'verify-full',  # Strict SSL verification in production
-    })
-else:
-    DATABASES['default']['OPTIONS'].update({
-        'sslmode': 'prefer',  # Use SSL if available, but don't require it in development
-    })
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
