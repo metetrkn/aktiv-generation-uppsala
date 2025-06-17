@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+import os
 
 class Photo(models.Model):
     """
@@ -15,7 +17,12 @@ class Photo(models.Model):
     )
     image = models.ImageField(
         upload_to='core/images/',
-        help_text="The actual image file. Will be stored in core/images/ directory"
+        help_text="The actual image file. Will be stored in core/static/core/images/ directory"
+    )
+    url_path = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="The URL path to access the image"
     )
     description = models.TextField(
         blank=True,
@@ -29,6 +36,15 @@ class Photo(models.Model):
     def __str__(self):
         """String representation of the Photo model."""
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Override save method to automatically set the url_path."""
+        if self.image:
+            # Get the relative path from MEDIA_ROOT
+            relative_path = os.path.relpath(self.image.path, settings.MEDIA_ROOT)
+            # Convert backslashes to forward slashes for URLs
+            self.url_path = relative_path.replace('\\', '/')
+        super().save(*args, **kwargs)
 
     class Meta:
         """Meta options for the Photo model."""
