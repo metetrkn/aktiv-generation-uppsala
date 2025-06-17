@@ -32,7 +32,7 @@ if not SECRET_KEY:
     raise ValueError("No SECRET_KEY set in environment variables")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG')
+DEBUG = os.environ.get('DJANGO_DEBUG', '').lower() in ('true', '1', 't')
 
 # List of allowed hosts for the application
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
@@ -55,6 +55,7 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
+
 
 # Organization Information (used in templates and emails)
 ORG_NAME = os.environ.get('ORG_NAME')
@@ -131,7 +132,8 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
         'OPTIONS': {
-            'sslmode': 'disable'  # Explicitly disable SSL for local development
+            'sslmode': 'disable',  # Explicitly disable SSL for local development
+            'client_encoding': 'UTF8',  
         }
     }
 }
@@ -159,8 +161,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization settings
-LANGUAGE_CODE = 'en-us'  # Default language
-TIME_ZONE = 'UTC'  # Default timezone
+LANGUAGE_CODE = 'sv'  # Swedish language code
+TIME_ZONE = 'Europe/Stockholm'  # Stockholm time zone
 USE_I18N = True  # Enable internationalization
 USE_L10N = True  # Enable localization
 USE_TZ = True    # Enable timezone support
