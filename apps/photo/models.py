@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 import os
+import shutil
 
 class Photo(models.Model):
     """
