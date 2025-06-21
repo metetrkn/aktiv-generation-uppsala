@@ -14,10 +14,15 @@ The views are responsible for:
 from django.shortcuts import render
 from django.utils import timezone
 from django.http import HttpResponse 
+from apps.photo.models import Photo
 
 # To handle HTTP requests and responses in home page
 def home(request):
-    return render(request, 'core/base.html') 
+    photos = Photo.objects.all()
+    context = {
+        'photos': photos
+    }
+    return render(request, 'core/base.html', context) 
 
 from django.shortcuts import render
 from django.conf import settings

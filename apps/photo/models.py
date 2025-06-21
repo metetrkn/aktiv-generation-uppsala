@@ -47,12 +47,6 @@ class Photo(models.Model):
             full_path = self.image.path
             # Convert backslashes to forward slashes for URLs
             self.url_path = relative_path.replace('\\', '/')
-            print("*"*40)
-            print("*"*40)
-            
-            print(settings.MEDIA_ROOT) # 
-            print("*"*40)
-            print("*"*40)   
         super().save(*args, **kwargs)
 
     class Meta:

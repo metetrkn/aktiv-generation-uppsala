@@ -163,7 +163,17 @@
         <div class="container swiper max-width">
             <h2 class="title">Bildgalleri</h2>
             <div class="slider-wrapper">
-                <div class="card-list swiper-wrapper" id="gallery-images"></div>
+                <div class="card-list swiper-wrapper" id="gallery-images">
+                    {% for photo in photos %}
+                    {% if photo.image %}
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
 
                 <div class="swiper-pagination"></div>
                 <div class="swiper-slide-button swiper-button-prev"></div>
