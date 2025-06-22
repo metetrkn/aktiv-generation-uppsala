@@ -1,10 +1,10 @@
 body.dark-mode {
     background-color: #121212;
-    color: #e0e0e0;
+    color: #f5f5f5;
 }
 
 body.dark-mode .title {
-    color: #e0e0e0;
+    color: #f5f5f5;
 }
 
 body.dark-mode .services,
@@ -13,7 +13,7 @@ body.dark-mode .about,
 body.dark-mode .contact,
 body.dark-mode .teams {
     background: #1e1e1e;
-    color: #e0e0e0;
+    color: #f5f5f5;
 }
 
 body.dark-mode .services .serv-content .card {
@@ -26,22 +26,31 @@ body.dark-mode .services .serv-content .card .box i {
 
 body.dark-mode .about .about-content .right p,
 body.dark-mode .skills .skills-content .left p {
-    color: #b0b0b0;
+    color: #dcdcdc;
 }
 
 body.dark-mode .contact .contact-content .info .head {
-    color: #e0e0e0;
+    color: #f5f5f5;
 }
 
 body.dark-mode .contact .contact-content .info .sub-title {
-    color: #b0b0b0;
+    color: #dcdcdc;
 }
 
 body.dark-mode footer {
     background: #1e1e1e;
-    color: #b0b0b0;
+    color: #dcdcdc;
 }
 
 body.dark-mode footer a {
     color: #f47932;
+}
+
+/* Sticky navbar in dark mode */
+body.dark-mode .navbar.sticky .menu li a {
+    color: #ffab7a !important;
+}
+
+body.dark-mode .navbar.sticky .menu li a:hover {
+    color: #ffab7a;
 } 
