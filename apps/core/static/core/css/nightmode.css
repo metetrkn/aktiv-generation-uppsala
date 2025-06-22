@@ -53,4 +53,94 @@ body.dark-mode .navbar.sticky .menu li a {
 
 body.dark-mode .navbar.sticky .menu li a:hover {
     color: #ffab7a;
+}
+
+/* Privacy Policy page in dark mode */
+body.dark-mode .privacy-policy-container {
+    background-color: #121212;
+}
+
+body.dark-mode .privacy-policy-content {
+    background: #1e1e1e;
+    color: #f5f5f5;
+}
+
+body.dark-mode .privacy-policy-content h1 {
+    color: #f5f5f5;
+}
+
+body.dark-mode .privacy-policy-content p,
+body.dark-mode .privacy-policy-content ul li {
+    color: #dcdcdc;
+}
+
+/* Cookies page in dark mode */
+body.dark-mode .cookies-container {
+    background-color: #121212;
+}
+
+body.dark-mode .cookies-content {
+    background: #1e1e1e;
+    color: #f5f5f5;
+}
+
+body.dark-mode .cookies-content h1,
+body.dark-mode .cookies-content h3 {
+    color: #f5f5f5;
+}
+
+body.dark-mode .cookies-content p,
+body.dark-mode .cookies-content ul li {
+    color: #dcdcdc;
+}
+
+body.dark-mode .cookies-content a {
+    color: #f47932;
+}
+
+/* Mail Us page in dark mode */
+body.dark-mode .mail-us-container {
+    background-color: #121212;
+}
+
+body.dark-mode .mail-us-content {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .mail-us-content h1,
+body.dark-mode .contact-form h2,
+body.dark-mode .form-group label {
+    color: #f5f5f5;
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+    background-color: #2c2c2c;
+    color: #f5f5f5;
+    border-color: #444;
+}
+
+body.dark-mode .form-group input::placeholder,
+body.dark-mode .form-group textarea::placeholder {
+    color: #888;
+}
+
+body.dark-mode .submit-btn {
+    background-color: #0056b3;
+}
+
+body.dark-mode .submit-btn:hover {
+    background-color: #004494;
+}
+
+body.dark-mode .alert-success {
+    color: #d4edda;
+    background-color: #155724;
+    border-color: #1c7430;
+}
+
+body.dark-mode .alert-error {
+    color: #f8d7da;
+    background-color: #721c24;
+    border-color: #842029;
 } 
