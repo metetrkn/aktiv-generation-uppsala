@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Photo
 from django import forms
+from django.utils.safestring import mark_safe
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
@@ -21,6 +22,23 @@ class PhotoAdmin(admin.ModelAdmin):
     
     # Add date-based navigation in the admin interface
     date_hierarchy = 'uploaded_at'
+
+    # Define the fields to be displayed in the change form, including the image preview
+    readonly_fields = ('image_preview',)
+
+    # Define the layout of the change form
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'image', 'image_preview', 'description', 'url_path', 'uploaded_at')
+        }),
+    )
+
+    def image_preview(self, obj):
+        """Displays a preview of the image in the admin."""
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="150" height="auto" />')
+        return "No Image"
+    image_preview.short_description = 'Preview'
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
