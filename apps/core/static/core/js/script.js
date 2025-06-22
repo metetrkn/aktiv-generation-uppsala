@@ -35,6 +35,13 @@ $(document).ready(function () {
         $('.menu-btn i').toggleClass("active");
     });
 
+    // Toggle night mode icon
+    $('#night-mode-toggle').click(function (e) {
+        e.preventDefault(); // Prevent the default link behavior
+        const icon = $(this).find('i');
+        icon.toggleClass('fa-moon fa-sun');
+    });
+
     // Code to dynamically add the gallery images
     const galleryContainer = document.getElementById('gallery-images');
     if (galleryContainer && typeof images !== 'undefined') {
