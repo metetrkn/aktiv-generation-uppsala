@@ -1,0 +1,47 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .services,
+body.dark-mode .skills,
+body.dark-mode .about,
+body.dark-mode .contact,
+body.dark-mode .teams {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .services .serv-content .card {
+    background: #2a2a2a;
+}
+
+body.dark-mode .services .serv-content .card .box i {
+    color: #f47932;
+}
+
+body.dark-mode .about .about-content .right p,
+body.dark-mode .skills .skills-content .left p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .contact .contact-content .info .head {
+    color: #e0e0e0;
+}
+
+body.dark-mode .contact .contact-content .info .sub-title {
+    color: #b0b0b0;
+}
+
+body.dark-mode footer {
+    background: #1e1e1e;
+    color: #b0b0b0;
+}
+
+body.dark-mode footer a {
+    color: #f47932;
+} 
