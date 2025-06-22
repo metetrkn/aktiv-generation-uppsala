@@ -49,6 +49,13 @@ class Photo(models.Model):
             self.url_path = relative_path.replace('\\', '/')
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        """Deletes the image file from the filesystem when the Photo object is deleted."""
+        if self.image:
+            if os.path.exists(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)
+
     class Meta:
         """Meta options for the Photo model."""
         ordering = ['-uploaded_at']  # Most recent photos first
