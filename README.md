@@ -104,6 +104,7 @@ aktiv-generation-uppsala/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+├── .env.example
 ├── manage.py
 ├── media/
 ├── poetry.lock
@@ -192,6 +193,37 @@ poetry install
 
 ---
 
+### Environment Variables ⚙️
+```sh
+cp .env.example .env
+# Edit .env with your local settings (e.g., database credentials, secret key)
+```
+
+---
+
+### Database Setup 🗄️
+
+By default, Django uses SQLite, but for production or advanced local development, you may want to use PostgreSQL or another database.
+
+**PostgreSQL Example:**
+
+```sh
+# Install PostgreSQL
+# Windows: Download from https://www.postgresql.org/download/windows/
+# Ubuntu/Debian:
+sudo apt-get install postgresql postgresql-contrib
+# macOS:
+brew install postgresql
+
+# Create a database and user (replace <user> and <db> with your values)
+sudo -u postgres createuser <user> --pwprompt
+sudo -u postgres createdb <db> --owner=<user>
+
+# Update your .env or configuration/settings.py with the correct DB credentials
+```
+
+---
+
 ### How to Run the Project
 
 ```sh
@@ -201,11 +233,25 @@ poetry shell
 # Run migrations
 poetry run python manage.py migrate
 
+# (Optional) Collect static files (for production or if needed)
+poetry run python manage.py collectstatic
+
 # Start the development server
 poetry run python manage.py runserver
 ```
 
 The application will be available at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+---
+
+### Superuser/Admin Account 👤
+
+To access the Django admin panel, create a superuser:
+
+```sh
+poetry run python manage.py createsuperuser
+# Follow the prompts to set username, email, and password
+```
 
 ---
 
@@ -282,10 +328,34 @@ make quality-format  # Fixes code formatting errors only (black, isort)
 - `bandit`: Scans for common security issues
 - `safety`: Checks dependencies for known vulnerabilities
 
+### Pre-commit Hooks (Optional)
+
+```sh
+poetry run pre-commit install
+```
+
+This ensures code quality checks run automatically before each commit.
+
 > **Note:** These checks are mandatory for:
 > - Creating pull requests
 > - Passing CI/CD pipeline (automatically runs on every commit/push)
 > - Maintaining code quality standards
+
+---
+
+## Troubleshooting & Common Issues 🛠️
+
+- **Python/Poetry not found:**
+  - Ensure Python 3.10 and Poetry are installed and available in your PATH.
+- **Database connection errors:**
+  - Double-check your .env or settings for correct database credentials.
+  - Ensure your database server is running.
+- **Static files not loading:**
+  - Run `poetry run python manage.py collectstatic` and ensure your static and media directories are correctly configured.
+- **Migration issues:**
+  - Try `poetry run python manage.py makemigrations` and `poetry run python manage.py migrate`.
+- **Permission errors:**
+  - On Linux/macOS, you may need to adjust file permissions or use `sudo` for some commands.
 
 ---
 
