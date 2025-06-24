@@ -130,9 +130,26 @@ aktiv-generation-uppsala/
 
 ## Getting Started 🏁
 
-### System Requirements 🔧
+### System Requirements, Recommended 🔧
 
-#### Windows Users
+- **Windows**: Windows 10 or later (64-bit)
+- **macOS**: macOS 10.15 (Catalina) or later
+- **Linux**: Ubuntu 20.04 LTS, Debian 11, or equivalent
+- **Python**: 3.10.x (required, not compatible with Python 4.0+)
+- **Package Manager**: Poetry (latest version)
+- **Database**: PostgreSQL 17.5
+- **Libraries**: Automatically handled by poetry (via poetry.lock and pyproject.toml files)
+
+### How to install the Project
+
+#### Windows Users - Automatic
+
+➖ Double click to run setup.bat
+
+✅ Recommendation for smoother execution:
+Right-click setup.bat → Run as Administrator
+
+#### Windows Users - Manual
 
 ```sh
 # Install Python (version used in this project)
@@ -205,7 +222,7 @@ cp .env.example .env
 
 By default, Django uses SQLite, but for production or advanced local development, you may want to use PostgreSQL or another database.
 
-**PostgreSQL Example:**
+**PostgreSQL (version 17.5) Example:**
 
 ```sh
 # Install PostgreSQL
