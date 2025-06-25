@@ -1,176 +1,193 @@
 @echo off
 setlocal ENABLEEXTENSIONS
+set LOGFILE=setup_log.txt
+
+echo Starting setup... > %LOGFILE%
 
 :: === Welcome message ===
 echo Hi, welcome to Aktiv-Generation-Uppsala website localhost setup installation wizard.
-echo To automatically install this web app on your local machine, you need to clone the project into your local system.
-echo.
-pause
 
-:: === Function to check for Q to exit ===
-:checkQuit
-set "KEY="
-set /p "KEY=Press any key to continue, or Q then Enter to quit: "
-if /I "%KEY%"=="Q" (
-    echo Setup aborted by user.
-    exit /b
-)
-goto :eof
 
 :: === Check if Git is installed ===
-echo Checking for Git installation...
-where git >nul 2>nul
+echo Checking for Git installation... >>%LOGFILE% 2>&1
+where git >>%LOGFILE% 2>&1
 if errorlevel 1 (
-    echo Git not found. Downloading Git installer...
-    powershell -Command "Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.50.0.windows.1/Git-2.50.0-64-bit.exe -OutFile Git-2.50.0-64-bit.exe"
+    echo Git not found. Downloading Git installer... >>%LOGFILE% 2>&1
+    powershell -Command "Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.50.0.windows.1/Git-2.50.0-64-bit.exe -OutFile Git-2.50.0-64-bit.exe" >>%LOGFILE% 2>&1
     if errorlevel 1 (
-        echo ERROR: Failed to download Git installer. Please install Git manually.
+        echo ERROR: Failed to download Git installer. >>%LOGFILE%
         pause
         exit /b
     )
-    echo Installing Git silently...
-    start /wait Git-2.50.0-64-bit.exe /VERYSILENT /NORESTART
+    echo Installing Git silently... >>%LOGFILE%
+    start /wait Git-2.50.0-64-bit.exe /VERYSILENT /NORESTART >>%LOGFILE% 2>&1
     if errorlevel 1 (
-        echo ERROR: Git installation failed. Please install Git manually.
+        echo ERROR: Git installation failed. >>%LOGFILE%
         pause
         exit /b
     )
     del Git-2.50.0-64-bit.exe
-
-    :: Check if Git is now in PATH
-    where git >nul 2>nul
+    where git >>%LOGFILE% 2>&1
     if errorlevel 1 (
-        echo WARNING: Git was installed but is not in your PATH.
-        echo Please add Git to your PATH environment variable manually before continuing.
+        echo WARNING: Git installed but not in PATH. >>%LOGFILE%
         pause
         exit /b
     )
-) else (
-    echo Git is already installed.
 )
-call :checkQuit
 
 :: === Check if Python is installed ===
-echo Checking for Python installation...
-where python >nul 2>nul
+echo Checking for Python... >>%LOGFILE%
+where python >>%LOGFILE% 2>&1
 if errorlevel 1 (
-    echo Python not found. Installing Python 3.10.0...
-    powershell -Command "Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe -OutFile python-3.10.0-amd64.exe"
+    echo Python not found. Installing Python 3.10.0... >>%LOGFILE%
+    powershell -Command "Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe -OutFile python-3.10.0-amd64.exe" >>%LOGFILE% 2>&1
     if errorlevel 1 exit /b
-    start /wait python-3.10.0-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
+    start /wait python-3.10.0-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 >>%LOGFILE% 2>&1
     if errorlevel 1 exit /b
     del python-3.10.0-amd64.exe
-) else (
-    echo Python is already installed.
 )
-call :checkQuit
 
-:: === Check if Poetry is installed, install if missing ===
-echo Checking for Poetry installation...
-where poetry >nul 2>nul
-if errorlevel 1 (
-    echo Installing Poetry...
-    powershell -Command "Invoke-WebRequest -Uri https://install.python-poetry.org -OutFile install-poetry.py"
-    if errorlevel 1 exit /b
-    python install-poetry.py
-    if errorlevel 1 exit /b
-    del install-poetry.py
-    set PATH=%USERPROFILE%\AppData\Roaming\Python\Scripts;%USERPROFILE%\AppData\Local\Programs\Python\Python310\Scripts;%PATH%
-) else (
-    echo Poetry is already installed.
+:: === Check if Poetry is installed ===
+echo Checking for Poetry... >>%LOGFILE%
+set "POETRY_PATH="
+for /f "delims=" %%p in ('where poetry 2^>nul') do (
+    set "POETRY_PATH=%%p"
+    goto PoetryFound
 )
-call :checkQuit
 
-:: === Check if project is already cloned ===
-echo Checking for existing project folder structure...
-if exist apps\ if exist configuration\ if exist manage.py (
-    echo Project already present. Skipping clone.
-) else (
-    echo Cloning project into 'aktiv-generation-uppsala' directory...
-    git clone https://github.com/metetrkn/aktiv-generation-uppsala.git aktiv-generation-uppsala
-    if errorlevel 1 (
-        echo ERROR: Failed to clone project.
-        pause
-        exit /b
+:InstallPoetry
+echo Poetry not found. Installing... >>%LOGFILE%
+powershell -Command "Invoke-WebRequest -Uri https://install.python-poetry.org -OutFile install-poetry.py" >>%LOGFILE% 2>&1
+if errorlevel 1 exit /b
+python install-poetry.py >>%LOGFILE% 2>&1
+if errorlevel 1 exit /b
+del install-poetry.py
+set PATH=%USERPROFILE%\AppData\Roaming\Python\Scripts;%USERPROFILE%\AppData\Local\Programs\Python\Python310\Scripts;%PATH%
+goto :eof
+
+:PoetryFound
+echo Poetry found at: %POETRY_PATH% >>%LOGFILE%
+
+
+:: === Check for existing project ===
+echo Checking for project folder... >>%LOGFILE%
+
+if exist apps\ (
+    if exist configuration\ (
+        if exist manage.py (
+            echo Project already present in current directory. >>%LOGFILE%
+            goto AfterClone
+        )
     )
-    cd aktiv-generation-uppsala
 )
-call :checkQuit
 
-:: === Install project dependencies using Poetry ===
-echo Installing project dependencies with Poetry...
-call poetry install || exit /b
-call :checkQuit
+echo Project not found in current folder. Preparing to clone... >>%LOGFILE%
 
-:: === Ensure Poetry is using the correct Python interpreter ===
-echo Setting Poetry to use the Python interpreter...
-call poetry env use python || exit /b
-call :checkQuit
-
-:: === Copy .env file if it doesn't already exist ===
-echo Checking for .env file...
-if exist .env.example (
-    if not exist .env copy .env.example .env >nul && echo .env file created.
-) else (
-    echo .env.example not found, skipping copy.
+if not exist aktiv-generation-uppsala (
+    mkdir aktiv-generation-uppsala >>%LOGFILE% 2>&1
+    echo Created 'aktiv-generation-uppsala' folder. >>%LOGFILE%
 )
-call :checkQuit
 
-:: === Prompt for PostgreSQL superuser password ===
-set /p POSTGRES_PASS=Enter password for PostgreSQL superuser (postgres):
-
-:: === Download and install PostgreSQL 17.5 silently ===
-echo Downloading and installing PostgreSQL 17.5 silently...
-powershell -Command "Invoke-WebRequest -Uri \"https://www.enterprisedb.com/postgresql-tutorial-resources-training-1?uuid=69f95902-b451-4735-b7e4-1b62209d4dfd&campaignId=postgres_rc_17\" -OutFile postgresql-installer.exe"
-if errorlevel 1 exit /b
-start /wait postgresql-installer.exe --mode unattended --unattendedmodeui none --superpassword %POSTGRES_PASS% --servicename postgresql-x64-17
-if errorlevel 1 exit /b
-call :checkQuit
-
-:: === Start PostgreSQL service ===
-echo Starting PostgreSQL service...
-net start postgresql-x64-17 >nul 2>nul
-
-:: === Verify that PostgreSQL service is running ===
-sc query postgresql-x64-17 | findstr /I "RUNNING" >nul
-if errorlevel 1 (
-    echo ERROR: PostgreSQL service is not running. Please verify manually.
+cd aktiv-generation-uppsala || (
+    echo ERROR: Failed to enter 'aktiv-generation-uppsala' directory. >>%LOGFILE%
+    echo Failed to change directory.
     pause
     exit /b
-) else (
-    echo PostgreSQL service is running.
 )
-call :checkQuit
 
-:: === Enter Poetry shell ===
-echo Entering Poetry shell...
-call poetry shell || exit /b
-call :checkQuit
+:: Check again if project was already cloned
+if exist apps\ (
+    if exist configuration\ (
+        if exist manage.py (
+            echo Project already exists inside 'aktiv-generation-uppsala'. Skipping clone. >>%LOGFILE%
+            goto AfterClone
+        )
+    )
+)
 
-:: === Ask user to manually update .env with credentials ===
+echo Cloning project into current folder... >>%LOGFILE%
+git clone https://github.com/metetrkn/aktiv-generation-uppsala.git . >>%LOGFILE% 2>&1
+if errorlevel 1 (
+    echo ERROR: Git clone failed. >>%LOGFILE%
+    pause
+    exit /b
+)
+
+:AfterClone
+echo Done checking and cloning project. >>%LOGFILE%
+
+
+:: === Set Poetry to use current Python ===
+echo Configuring Poetry interpreter... >>%LOGFILE%
+call poetry env use python >>%LOGFILE% 2>&1 || exit /b
+
+
+echo NO PROBLEM UNTIL NOW... >>%LOGFILE%
+
+
+:: === Install dependencies ===
+echo Installing dependencies... >>%LOGFILE%
+call poetry install >>%LOGFILE% 2>&1 || exit /b
+
+
+
+:: === Copy .env file ===
+echo Checking for .env file... >>%LOGFILE%
+if exist .env.example (
+    if not exist .env copy .env.example .env >nul && echo .env file created. >>%LOGFILE%
+) else (
+    echo .env.example not found, skipping. >>%LOGFILE%
+)
+
+:: === PostgreSQL password prompt ===
+set /p POSTGRES_PASS=Enter password for PostgreSQL superuser (postgres):
+
+:: === Install PostgreSQL ===
+echo Installing PostgreSQL... >>%LOGFILE%
+powershell -Command "Invoke-WebRequest -Uri \"https://www.enterprisedb.com/postgresql-tutorial-resources-training-1?uuid=69f95902-b451-4735-b7e4-1b62209d4dfd&campaignId=postgres_rc_17\" -OutFile postgresql-installer.exe" >>%LOGFILE% 2>&1
+if errorlevel 1 exit /b
+start /wait postgresql-installer.exe --mode unattended --unattendedmodeui none --superpassword %POSTGRES_PASS% --servicename postgresql-x64-17 >>%LOGFILE% 2>&1
+if errorlevel 1 exit /b
+
+:: === Start PostgreSQL service ===
+echo Starting PostgreSQL service... >>%LOGFILE%
+net start postgresql-x64-17 >>%LOGFILE% 2>&1
+
+:: === Check if PostgreSQL is running ===
+sc query postgresql-x64-17 | findstr /I "RUNNING" >>%LOGFILE%
+if errorlevel 1 (
+    echo ERROR: PostgreSQL service is not running. >>%LOGFILE%
+    pause
+    exit /b
+)
+
+:: === Poetry shell ===
+echo Launching Poetry shell... >>%LOGFILE%
+call poetry shell >>%LOGFILE% 2>&1 || exit /b
+
+:: === .env update reminder ===
 echo.
 echo *** Please update the .env file with your credentials now. ***
 echo Press any key to continue once done...
 pause >nul
 
-:: === Apply Django migrations ===
-echo Applying Django migrations...
-call poetry run python manage.py migrate || exit /b
-call :checkQuit
+:: === Django migrations ===
+echo Running Django migrations... >>%LOGFILE%
+call poetry run python manage.py migrate >>%LOGFILE% 2>&1 || exit /b
 
-:: === Collect static files (for production setup) ===
-echo Collecting static files...
-call poetry run python manage.py collectstatic --noinput || exit /b
-call :checkQuit
+:: === Collect static files ===
+echo Collecting static files... >>%LOGFILE%
+call poetry run python manage.py collectstatic --noinput >>%LOGFILE% 2>&1 || exit /b
 
-:: === Create Django superuser (interactive) ===
-echo Creating Django superuser (interactive)...
-call poetry run python manage.py createsuperuser || exit /b
-call :checkQuit
+:: === Create superuser ===
+echo Creating superuser... >>%LOGFILE%
+call poetry run python manage.py createsuperuser >>%LOGFILE% 2>&1 || exit /b
 
-:: === Start the Django development server ===
-echo Starting Django development server...
-call poetry run python manage.py runserver || exit /b
+:: === Run dev server ===
+echo Starting Django dev server... >>%LOGFILE%
+call poetry run python manage.py runserver >>%LOGFILE% 2>&1 || exit /b
 
 endlocal
-pause
+echo.
+echo Setup completed. Press any key to close this window.
+pause >nul
