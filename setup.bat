@@ -7,6 +7,40 @@ echo Starting setup... > %LOGFILE%
 :: === Welcome message ===
 echo Hi, welcome to Aktiv-Generation-Uppsala website localhost setup installation wizard.
 
+:: === Check if Chocolatey is installed ===
+echo Checking for Chocolatey...
+where choco >nul 2>&1
+if !errorlevel! neq 0 (
+    echo Chocolatey not found. Installing...
+    
+    :: Show progress message that will be visible to user
+    echo Installing Chocolatey (this may take several minutes)...
+    
+    :: Run installation with better error handling
+    set "PSCommand=[System.Net.ServicePointManager]::SecurityProtocol = 'Tls12'; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "!PSCommand!"
+    if !errorlevel! neq 0 (
+        echo ERROR: Chocolatey installation failed.
+        exit /b 1
+    )
+
+    :: Add Chocolatey to PATH
+    set "CHOCO_PATH=%ProgramData%\chocolatey\bin"
+    echo %PATH% | find /I "%CHOCO_PATH%" >nul || (
+        echo Adding Chocolatey to system PATH...
+        setx PATH "%PATH%;%CHOCO_PATH%"
+        set "PATH=%PATH%;%CHOCO_PATH%"
+    )
+)
+
+    :: Final verification
+    where choco >nul
+    if !errorlevel! neq 0 (
+        echo ERROR: Chocolatey installation verification failed.
+        exit /b 1
+    )
+
+    echo Chocolatey installation completed successfully.
 
 :: === Check if Git is installed ===
 echo Checking for Git installation... >>%LOGFILE% 2>&1
