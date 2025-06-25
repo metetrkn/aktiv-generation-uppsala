@@ -144,10 +144,20 @@ aktiv-generation-uppsala/
 
 #### Windows Users - Automatic
 
+```
+❗ setup.bat file clones project folder into the aktiva-generation-uppsala folder in the current directory, if project alreaady did not cloned.
+
+1️⃣ Download setup.bat file from Github project
+
 ➖ Double click to run setup.bat
+
+⚠️ You’ll likely get a Windows SmartScreen warning running setup.bat. To proceed, select “More info” → “Run anyway.”
+
+!!OR!!
 
 ✅ Recommendation for smoother execution:
 Right-click setup.bat → Run as Administrator
+```
 
 #### Windows Users - Manual
 
