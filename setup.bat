@@ -7,14 +7,28 @@ set "CHOCO_DIR=%ProgramData%\chocolatey"
 set "CHOCO_BIN=%CHOCO_DIR%\bin\choco.exe"
 set "SYSTEMROOT=%SystemRoot%"
 
-:: 2) Check for Admin rights
+:: ================= ADMIN ELEVATION FIRST =================
+:: Check for Admin rights (must be first operation)
 NET SESSION >nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo [%date% %time%] Not elevated – requesting Admin rights...>>"%LOGFILE%"
+    echo [%date% %time%] Not elevated - requesting Admin rights...>>"%LOGFILE%"
     goto UACPrompt
-) else (
-    echo [%date% %time%] Already elevated.>>"%LOGFILE%"
-    goto gotAdmin
+)
+
+:gotAdmin
+cd /d "%~dp0"
+echo [%date% %time%] Running with Admin privileges>>"%LOGFILE%"
+
+:: Now set critical system paths
+set "PATH=%SYSTEMROOT%\System32;%SYSTEMROOT%;%SYSTEMROOT%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%PATH%"
+
+:: ================= THEN CHECK FOR CHOCOLATEY =================
+echo [%date% %time%] Checking Chocolatey status...>>"%LOGFILE%"
+where choco >nul 2>&1 && (
+    choco --version >>"%LOGFILE%" 2>&1
+    echo [%date% %time%] Chocolatey is already working (version: 
+    choco --version
+    goto post_install
 )
 
 :UACPrompt
@@ -25,12 +39,6 @@ echo UAC.ShellExecute "%batchPath%", "%batchArgs%", "", "runas", 1 >> "%temp%\ge
 "%temp%\getadmin.vbs"
 exit /b
 
-:gotAdmin
-cd /d "%~dp0"
-echo [%date% %time%] Relaunched as Admin, working folder now %~dp0>>"%LOGFILE%"
-
-:: 3) Ensure critical system paths are available
-set "PATH=%SYSTEMROOT%\System32;%SYSTEMROOT%;%SYSTEMROOT%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\"
 
 :: 4) Main logic
 call :main >>"%LOGFILE%" 2>&1
@@ -40,14 +48,6 @@ exit /b
 echo =====================================================
 echo [%date% %time%] Starting Chocolatey install/repair...
 echo =====================================================
-
-:: 1) Check if choco exists
-where choco >nul 2>&1
-if not ERRORLEVEL 1 (
-    echo [%date% %time%] Chocolatey already on PATH – skipping install.
-    goto :post_install
-)
-
 :: 2) Clean broken or existing installs
 if exist "%CHOCO_DIR%" (
     echo [%date% %time%] Found existing Chocolatey installation - removing...
@@ -90,10 +90,10 @@ echo [%date% %time%] Chocolatey is installed or already present.
 echo [%date% %time%] Writing SYSTEM environment variables…
 setx /M ChocolateyInstall "%CHOCO_DIR%" >>"%LOGFILE%" 2>&1
 
-:: 6) Update system PATH
-for /f "skip=2 tokens=2,*" %%A in (
-  'reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path'
-) do set "sysPath=%%B"
+:: Refresh local PATH from registry
+for /f "tokens=2*" %%A in (
+    'reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path ^| findstr /i "Path"'
+) do set "PATH=%%B;%PATH%"
 
 echo !sysPath! | find /I "%CHOCO_DIR%\bin" >nul
 if ERRORLEVEL 1 (
@@ -113,6 +113,7 @@ if exist "%CHOCO_DIR%\bin\refreshenv.cmd" (
 echo [%date% %time%] Final PATH: %PATH%
 echo [%date% %time%] Setup complete!
 exit /b 0
+
 
 :: === Check if Git is installed ===
 echo Checking for Git installation... >>%LOGFILE% 2>&1
