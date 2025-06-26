@@ -211,7 +211,7 @@ python3.10 -m pip install poetry
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
 # Clone the project
-git clone git@github.com:your-org/your-repo.git
+git clone git@github.com:metetrkn/aktiv-generation-uppsala.git
 cd your-repo
 
 # Install dependencies
