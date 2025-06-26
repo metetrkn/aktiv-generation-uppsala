@@ -226,6 +226,12 @@ cp .env.example .env
 # Edit .env with your local settings (e.g., database credentials, secret key)
 ```
 
+### Media - Images ⚙️
+```sh
+move "media-" "media"
+# Change media- folder (contains mock images) name to media, mock images can be replaced via admin interface photos application
+
+
 ---
 
 ### Database Setup 🗄️
