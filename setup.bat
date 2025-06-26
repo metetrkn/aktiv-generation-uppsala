@@ -1,46 +1,89 @@
 @echo off
-setlocal ENABLEEXTENSIONS
-set LOGFILE=setup_log.txt
+setlocal enabledelayedexpansion ENABLEEXTENSIONS
 
-echo Starting setup... > %LOGFILE%
+set "LOGFILE=setup_log.txt"
+set "CHOCO_DIR=%ProgramData%\chocolatey"
+set "CHOCO_BIN=%CHOCO_DIR%\bin\choco.exe"
 
-:: === Welcome message ===
+call :main >>"%LOGFILE%" 2>>&1
+exit /b
+
+:main
+echo Starting setup...
 echo Hi, welcome to Aktiv-Generation-Uppsala website localhost setup installation wizard.
 
-:: === Check if Chocolatey is installed ===
-echo Checking for Chocolatey...
+REM 1. Check if choco in PATH
+echo Checking if Chocolatey (choco) is callable from PATH...
 where choco >nul 2>&1
-if !errorlevel! neq 0 (
-    echo Chocolatey not found. Installing...
-    
-    :: Show progress message that will be visible to user
-    echo Installing Chocolatey (this may take several minutes)...
-    
-    :: Run installation with better error handling
-    set "PSCommand=[System.Net.ServicePointManager]::SecurityProtocol = 'Tls12'; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "!PSCommand!"
-    if !errorlevel! neq 0 (
-        echo ERROR: Chocolatey installation failed.
-        exit /b 1
-    )
+if %ERRORLEVEL% EQU 0 (
+    echo Chocolatey is already in PATH and callable.
+    goto :done
+)
 
-    :: Add Chocolatey to PATH
-    set "CHOCO_PATH=%ProgramData%\chocolatey\bin"
-    echo %PATH% | find /I "%CHOCO_PATH%" >nul || (
-        echo Adding Chocolatey to system PATH...
-        setx PATH "%PATH%;%CHOCO_PATH%"
-        set "PATH=%PATH%;%CHOCO_PATH%"
+REM 2. Detect "phantom"/broken Chocolatey install (dir exists, but no choco.exe)
+if exist "%CHOCO_DIR%" (
+    if not exist "%CHOCO_BIN%" (
+        echo Detected incomplete Chocolatey installation: directory exists without choco.exe
+        echo Attempting to automatically delete "%CHOCO_DIR%" ...
+        rmdir /s /q "%CHOCO_DIR%"
+        if exist "%CHOCO_DIR%" (
+            echo ERROR: Failed to delete "%CHOCO_DIR%". Please delete manually and re-run this script.
+            exit /b 1
+        ) else (
+            echo Directory cleaned up. Proceeding with fresh Chocolatey installation...
+        )
     )
 )
 
-    :: Final verification
-    where choco >nul
-    if !errorlevel! neq 0 (
-        echo ERROR: Chocolatey installation verification failed.
-        exit /b 1
+REM 3. Check local Chocolatey install
+if exist "%CHOCO_BIN%" (
+    echo Found local Chocolatey install. Adding to PATH for this session...
+    set "PATH=%PATH%;%CHOCO_DIR%\bin"
+    where choco >nul 2>&1
+    if %ERRORLEVEL% EQU 0 (
+        echo Successfully added Chocolatey to PATH for this session!
+        goto :done
+    ) else (
+        echo ERROR: Even after adding to PATH, choco is not callable!
+        goto :install_choco
     )
+) else (
+    echo No local Chocolatey installation found. Will attempt to install.
+    goto :install_choco
+)
 
-    echo Chocolatey installation completed successfully.
+:install_choco
+REM 4. Download/install Chocolatey
+echo Installing Chocolatey using PowerShell...
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+  "Set-ExecutionPolicy Bypass -Scope Process; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: Chocolatey installation failed! Please see https://chocolatey.org/install for troubleshooting.
+    exit /b 1
+)
+
+REM 5. After install: check if choco now callable, else add to PATH
+where choco >nul 2>&1
+if %ERRORLEVEL% EQU 0 (
+    echo Chocolatey installed and callable!
+    goto :done
+)
+
+REM If still not in PATH, add and re-verify
+echo Adding installed Chocolatey to PATH for this session...
+set "PATH=%PATH%;%CHOCO_DIR%\bin"
+where choco >nul 2>&1
+if %ERRORLEVEL% EQU 0 (
+    echo Chocolatey now available after PATH update.
+    goto :done
+) else (
+    echo ERROR: Chocolatey still not available after installation and path update!
+    exit /b 1
+)
+
+:done
+echo Chocolatey is fully installed and ready to use in this session.
+exit /b
 
 :: === Check if Git is installed ===
 echo Checking for Git installation... >>%LOGFILE% 2>&1
