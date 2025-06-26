@@ -115,32 +115,21 @@ echo [%date% %time%] Setup complete!
 exit /b 0
 
 
-:: === Check if Git is installed ===
-echo Checking for Git installation... >>%LOGFILE% 2>&1
-where git >>%LOGFILE% 2>&1
+:: ================= GIT INSTALLATION =================
+echo [%date% %time%] Checking for Git installation...>>"%LOGFILE%"
+where git >nul 2>&1
 if errorlevel 1 (
-    echo Git not found. Downloading Git installer... >>%LOGFILE% 2>&1
-    powershell -Command "Invoke-WebRequest -Uri https://github.com/git-for-windows/git/releases/download/v2.50.0.windows.1/Git-2.50.0-64-bit.exe -OutFile Git-2.50.0-64-bit.exe" >>%LOGFILE% 2>&1
+    echo [%date% %time%] Git not found. Installing via Chocolatey...>>"%LOGFILE%"
+    choco install git -y --no-progress >>"%LOGFILE%" 2>&1
     if errorlevel 1 (
-        echo ERROR: Failed to download Git installer. >>%LOGFILE%
-        pause
-        exit /b
+        echo [%date% %time%] ERROR: Failed to install Git via Chocolatey>>"%LOGFILE%"
+        exit /b 1
     )
-    echo Installing Git silently... >>%LOGFILE%
-    start /wait Git-2.50.0-64-bit.exe /VERYSILENT /NORESTART >>%LOGFILE% 2>&1
-    if errorlevel 1 (
-        echo ERROR: Git installation failed. >>%LOGFILE%
-        pause
-        exit /b
-    )
-    del Git-2.50.0-64-bit.exe
-    where git >>%LOGFILE% 2>&1
-    if errorlevel 1 (
-        echo WARNING: Git installed but not in PATH. >>%LOGFILE%
-        pause
-        exit /b
-    )
+    echo [%date% %time%] Git installation completed successfully.>>"%LOGFILE%"
+) else (
+    echo [%date% %time%] Git is already installed.>>"%LOGFILE%"
 )
+
 
 :: === Check if Python is installed ===
 echo Checking for Python... >>%LOGFILE%
