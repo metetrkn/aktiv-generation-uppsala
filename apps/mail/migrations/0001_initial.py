@@ -5,6 +5,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to create the AdminReply and Message models.
+
+    - AdminReply: Stores admin responses with fields for answer ID, subject, message, and creation timestamp.
+    - Message: Stores user messages with fields for name, email, subject, message content, read status, and creation timestamp.
+
+    Both models include verbose names (in Swedish) and ordering by creation date descending.
+    """
 
     initial = True
 

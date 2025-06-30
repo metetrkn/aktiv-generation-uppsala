@@ -12,11 +12,12 @@ for all mail-related functionality in the application.
 """
 
 from django.urls import path
+
 from . import views
 
-app_name = 'mail'
+app_name = "mail"
 
 urlpatterns = [
-    path('', views.mail_us, name='mail_us'),
-    path('reply/<int:message_id>/', views.mail_reply, name='mail_reply'),
-] 
+    path("", views.mail_us, name="mail_us"),
+    path("reply/<int:message_id>/", views.mail_reply, name="mail_reply"),
+]

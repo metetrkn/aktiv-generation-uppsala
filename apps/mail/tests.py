@@ -11,6 +11,4 @@ The tests ensure that all mail-related functionality works as expected
 and maintains its integrity through changes.
 """
 
-from django.test import TestCase
-
 # Create your tests here.

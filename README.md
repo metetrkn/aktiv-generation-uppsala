@@ -345,6 +345,11 @@ To fix formatting errors:
 make quality-format  # Fixes code formatting errors only (black, isort)
 ```
 
+To modify files in place and removes unused imports/variables flagged by flake8.
+```sh
+poetry run autoflake --remove-all-unused-imports --remove-unused-variables --in-place -r apps/core apps/mail apps/photo
+```
+
 #### Code Quality & Analysis
 
 - `flake8`: Checks for style guide violations
@@ -396,13 +401,17 @@ This ensures code quality checks run automatically before each commit.
 
 1. Create a feature branch
 2. Make your changes
-3. Run quality checks:
+3. (Optional) To push/pull request without quality check
+   ```sh
+   git push --no-verify origin your_branch_name
+   ```
+4. Run quality checks:
    ```sh
    make quality-check-all
    ```
-4. Commit your changes (pre-commit hooks will run automatically)
-5. Create a pull request (CI will run all checks)
-6. After review and approval, merge to main branch
+5. Commit your changes (pre-commit hooks will run automatically)
+6. Create a pull request (CI will run all checks)
+7. After review and approval, merge to main branch
 
 > **Note:** All pull requests must pass:
 > - Code quality checks

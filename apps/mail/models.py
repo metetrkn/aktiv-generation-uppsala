@@ -15,8 +15,20 @@ including templates, sending history, and tracking information.
 from django.db import models
 from django.utils import timezone
 
-# Message model stores messages sent by users through the website's contact form.
+
 class Message(models.Model):
+    """
+    Represents a message sent by a user via the contact form.
+
+    Attributes:
+        name (str): Sender's name, optional.
+        email (str): Sender's email address, optional.
+        subject (str): Message subject, optional.
+        message (str): Content of the message.
+        created_at (datetime): Timestamp of creation.
+        is_read (bool): Whether the message has been read by admin.
+    """
+
     # Name of the sender (can be blank or null)
     name = models.CharField(max_length=100, blank=True, null=True)
     # Email address of the sender (can be blank or null)
@@ -31,18 +43,35 @@ class Message(models.Model):
     is_read = models.BooleanField(default=False)
 
     class Meta:
+        """
+        Model metadata.
+
+        Orders messages by newest first.
+        Sets verbose names for admin display.
+        """
+
         # Order messages by creation date, newest first
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
         # Human-readable singular and plural names for the admin interface
-        verbose_name = 'Meddelande'
-        verbose_name_plural = 'Meddelanden'
+        verbose_name = "Meddelande"
+        verbose_name_plural = "Meddelanden"
 
     def __str__(self):
         # String representation of the message, showing sender and date
         return f"Meddelande från {self.name or 'Anonym'} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
 
-# AdminReply model stores replies sent by admins to user messages.
+
 class AdminReply(models.Model):
+    """
+    Stores replies sent by admins to user messages.
+
+    Attributes:
+        answer_id (int): ID of the original message being replied to.
+        subject (str): Subject of the admin's reply.
+        message (str): Content of the reply message.
+        created_at (datetime): Timestamp when the reply was created.
+    """
+
     # ID of the original message being replied to
     answer_id = models.IntegerField()  # Stores the ID of the original message
     # Subject of the admin's reply
@@ -53,12 +82,22 @@ class AdminReply(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
+        """
+        Model metadata.
+
+        Orders replies by newest first.
+        Sets verbose names for admin interface.
+        """
+
         # Order replies by creation date, newest first
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
         # Human-readable singular and plural names for the admin interface
-        verbose_name = 'Admin Svar'
-        verbose_name_plural = 'Admin Svar'
+        verbose_name = "Admin Svar"
+        verbose_name_plural = "Admin Svar"
 
     def __str__(self):
-        # String representation of the reply, showing the original message ID and date
+        """
+        Return a string showing the original message ID and reply date.
+        """
+
         return f"Svar på meddelande {self.answer_id} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"

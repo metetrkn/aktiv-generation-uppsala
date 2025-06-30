@@ -4,6 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to add the 'url_path' field to the Photo model
+    and update the 'image' field's upload path and help text.
+
+    - Adds 'url_path' CharField to store the URL path for accessing images.
+    - Alters 'image' ImageField to change the upload directory to 'core/images/'
+      and update the help text accordingly.
+    """
 
     dependencies = [
         ("photo", "0001_initial"),
