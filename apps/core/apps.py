@@ -13,6 +13,13 @@ The core app is responsible for:
 
 from django.apps import AppConfig
 
+
 class CoreConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.core' 
+    """
+    Configuration for the core application.
+
+    Sets default auto field and app name.
+    """
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.core"

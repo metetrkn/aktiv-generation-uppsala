@@ -5,6 +5,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Initial migration for the Photo model.
+
+    Creates the Photo table with the following fields:
+    - id: Primary key, auto-incrementing.
+    - title: CharField, max length 200, stores the photo title.
+    - image: ImageField, stores the image file under core/images/ directory.
+    - description: Optional text field for additional photo details.
+    - uploaded_at: DateTimeField, records the upload timestamp with default as current time.
+
+    The model is ordered by uploaded_at in descending order.
+    """
 
     initial = True
 
