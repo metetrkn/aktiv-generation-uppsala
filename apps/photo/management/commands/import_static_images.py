@@ -1,3 +1,5 @@
+"""Management command to import static images into the Photo model."""
+
 import os
 
 from django.conf import settings
@@ -7,6 +9,8 @@ from apps.photo.models import Photo
 
 
 class Command(BaseCommand):
+    """Django management command to import static images into the Photo model."""
+    
     help = "Import images from core/static/core/images directory into the database"
 
     def handle(self, *args, **options):
