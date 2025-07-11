@@ -29,3 +29,7 @@ def privacy_policy(request):
 
 def cookies(request):
     return render(request, "core/includes/cookies.html")
+
+
+def activities(request):
+    return render(request, "core/activities.html")

@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="activity-container max-width">
+    <h1 class="title">Aktivitet</h1>
+    <div class="activity-details">
+        <p><strong>Aktivitet:</strong> {{ activity_title }}</p>
+        <p><strong>Datum:</strong> {{ activity_date }}</p>
+        <p><strong>Plats:</strong> {{ activity_place }}</p>
+    </div>
+    <div class="activity-gallery-section">
+        <h2>Bilder</h2>
+        <div class="slider-wrapper">
+            <div class="card-list swiper-wrapper">
+                {% for image in activity_images %}
+                <div class="card swiper-slide">
+                    <div class="image-box">
+                        <img src="{{ image.url }}" alt="{{ image.alt }}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-slide-button swiper-button-prev"></div>
+            <div class="swiper-slide-button swiper-button-next"></div>
+        </div>
+    </div>
+    <div class="activity-summary-section">
+        <h2>Sammanfattning</h2>
+        <p>{{ activity_summary }}</p>
+    </div>
+</div>
+
+<a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{% static 'core/js/swiperScript.js' %}"></script>
+<script>
+    // Back to top button functionality
+    const backToTopButton = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+{% endblock %}
+
+{% block any_other_blocks %}
+    <!-- Empty all other blocks -->
+{% endblock %} 
