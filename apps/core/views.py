@@ -32,4 +32,4 @@ def cookies(request):
 
 
 def activities(request):
-    return render(request, "core/activities.html")
+    return render(request, "core/includes/activities.html")
