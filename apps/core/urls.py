@@ -21,4 +21,5 @@ urlpatterns = [
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
     path("cookies/", views.cookies, name="cookies"),
     path("activities/", views.activities, name="activities"),
+    sdf
 ]
