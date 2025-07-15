@@ -38,8 +38,8 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ("title", "date", "time", "location", "is_active")
-    list_filter = ("is_active", "date")
+    list_display = ("title", "date", "time", "location", "future_event")
+    list_filter = ("future_event", "date")
     search_fields = ("title", "description", "location")
     readonly_fields = ("created_at", "updated_at")
     fieldsets = (
@@ -47,7 +47,7 @@ class ActivityAdmin(admin.ModelAdmin):
             "Activity Information",
             {"fields": ("title", "description", "date", "time", "location")},
         ),
-        ("Details", {"fields": ("max_participants", "is_active", "image")}),
+        ("Details", {"fields": ("max_participants", "future_event", "image")}),
         (
             "Timestamps",
             {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},

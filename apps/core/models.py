@@ -54,15 +54,15 @@ class Activity(models.Model):
     """
 
     title = models.CharField(_("Title"), max_length=200)
-    description = models.TextField(_("Description"))
-    date = models.DateField(_("Date"))
-    time = models.TimeField(_("Time"))
-    location = models.CharField(_("Location"), max_length=200)
+    description = models.TextField(_("Description"), blank=True, null=True)
+    date = models.DateField(_("Date"), blank=True, null=True)
+    time = models.TimeField(_("Time"), blank=True, null=True)
+    location = models.CharField(_("Location"), max_length=200, blank=True, null=True)
     max_participants = models.PositiveIntegerField(
         _("Maximum Participants"), null=True, blank=True
     )
-    image = models.ImageField(_("Image"), upload_to="activities/", blank=True)
-    is_active = models.BooleanField(_("Active"), default=True)
+    image = models.ImageField(_("Image"), upload_to="activities/", blank=True, null=True)
+    future_event = models.BooleanField(_("Future Event"), default=False, help_text=_('Check if this is a future event.'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
