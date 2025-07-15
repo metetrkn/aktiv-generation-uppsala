@@ -221,6 +221,7 @@
         flex-direction: column;
         margin: 0;
         transform: none !important;
+        overflow-y: auto;
     }
     
     .navbar .menu.active {
