@@ -144,3 +144,54 @@ body.dark-mode .alert-error {
     background-color: #721c24;
     border-color: #842029;
 } 
+
+/* Activities page (activities.html) night mode */
+body.dark-mode .activity-container {
+    background: #181c1f;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+}
+body.dark-mode .activity-container .title {
+    color: #f5f5f5;
+}
+body.dark-mode .activity-details {
+    background: #23272a;
+    color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+body.dark-mode .activity-gallery-section h2 {
+    color: #4fc3f7;
+}
+body.dark-mode .slider-wrapper {
+    background: #23272a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+}
+body.dark-mode .card {
+    background: #23272a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+}
+body.dark-mode .card:hover {
+    box-shadow: 0 6px 24px rgba(79,195,247,0.13);
+}
+body.dark-mode .image-box {
+    background: #181c1f;
+}
+body.dark-mode .activity-summary-section {
+    background: #23272a;
+    color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+body.dark-mode .activity-summary-section h2 {
+    color: #66bb6a;
+}
+body.dark-mode .activity-summary-section p {
+    color: #e0e0e0;
+}
+body.dark-mode .back-to-top {
+    background: #4fc3f7;
+    color: #181c1f;
+    box-shadow: 0 2px 8px rgba(79,195,247,0.18);
+}
+body.dark-mode .back-to-top:hover {
+    background: #66bb6a;
+    color: #fff;
+} 
