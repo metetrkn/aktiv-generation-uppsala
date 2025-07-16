@@ -61,7 +61,6 @@ class Activity(models.Model):
     max_participants = models.PositiveIntegerField(
         _("Maximum Participants"), null=True, blank=True
     )
-    image = models.ImageField(_("Image"), upload_to="activities/", blank=True, null=True)
     future_event = models.BooleanField(_("Future Event"), default=False, help_text=_('Check if this is a future event.'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -85,3 +84,15 @@ class Activity(models.Model):
         """
 
         return self.title
+
+
+class ActivityImage(models.Model):
+    """
+    Model to store multiple images for a single Activity.
+    """
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(_("Image"), upload_to="activities/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.activity.title}"

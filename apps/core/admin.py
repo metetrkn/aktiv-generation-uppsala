@@ -15,7 +15,7 @@ manage the core application's data.
 
 from django.contrib import admin
 
-from .models import Activity, Organization
+from .models import Activity, Organization, ActivityImage
 
 
 @admin.register(Organization)
@@ -36,6 +36,10 @@ class OrganizationAdmin(admin.ModelAdmin):
     )
 
 
+class ActivityImageInline(admin.TabularInline):
+    model = ActivityImage
+    extra = 1
+
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ("title", "date", "time", "location", "future_event")
@@ -47,9 +51,10 @@ class ActivityAdmin(admin.ModelAdmin):
             "Activity Information",
             {"fields": ("title", "description", "date", "time", "location")},
         ),
-        ("Details", {"fields": ("max_participants", "future_event", "image")}),
+        ("Details", {"fields": ("max_participants", "future_event")}),
         (
             "Timestamps",
             {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
         ),
     )
+    inlines = [ActivityImageInline]
