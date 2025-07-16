@@ -95,10 +95,11 @@
 /* Special Link Styles */
 .navbar .menu li a#outbound-link {
     color: #f0945f !important;
-    font-weight: bold;
-    text-decoration: underline;
-    text-shadow: 0 0 2px #fff;
+    font-weight: 500;
+    text-decoration: none;
+    text-shadow: none;
 }
+
 
 .navbar .menu li a#outbound-link:hover {
     color: #fff !important;
