@@ -14,6 +14,7 @@ The views are responsible for:
 from django.shortcuts import render
 
 from apps.photo.models import Photo
+from .models import Activity
 
 
 # To handle HTTP requests and responses in home page
@@ -32,4 +33,22 @@ def cookies(request):
 
 
 def activities(request):
-    return render(request, "core/includes/activities.html")
+    activities = Activity.objects.prefetch_related('images').all()
+    activity_list = []
+    for activity in activities:
+        images = [
+            {
+                'url': img.image.url,
+                'alt': f"{activity.title} image"
+            }
+            for img in activity.images.all()
+        ]
+        activity_list.append({
+            'title': activity.title,
+            'date': activity.date,
+            'location': activity.location,
+            'description': activity.description,
+            'images': images,
+        })
+    context = {'activities': activity_list}
+    return render(request, "core/includes/activities.html", context)

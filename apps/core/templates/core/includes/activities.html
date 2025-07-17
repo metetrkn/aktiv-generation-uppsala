@@ -8,18 +8,19 @@
 {% endblock %}
 
 {% block content %}
+{% for activity in activities %}
 <div class="activity-container max-width">
     <h1 class="title">Aktivitet</h1>
     <div class="activity-details">
-        <div class="activity-row"><strong>Aktivitet:</strong> {{ activity_title }}</div>
-        <div class="activity-row"><strong>Datum:</strong> {{ activity_date }}</div>
-        <div class="activity-row"><strong>Plats:</strong> {{ activity_place }}</div>
+        <div class="activity-row"><strong>Aktivitet:</strong> {{ activity.title }}</div>
+        <div class="activity-row"><strong>Datum:</strong> {{ activity.date }}</div>
+        <div class="activity-row"><strong>Plats:</strong> {{ activity.location }}</div>
     </div>
     <div class="activity-gallery-section">
         <h2>Bilder</h2>
         <div class="slider-wrapper">
             <div class="card-list swiper-wrapper">
-                {% for image in activity_images %}
+                {% for image in activity.images %}
                 <div class="card swiper-slide">
                     <div class="image-box">
                         <img src="{{ image.url }}" alt="{{ image.alt }}">
@@ -34,9 +35,10 @@
     </div>
     <div class="activity-summary-section">
         <h2>Sammanfattning</h2>
-        <p>{{ activity_summary }}</p>
+        <p>{{ activity.description }}</p>
     </div>
 </div>
+{% endfor %}
 
 <a href="#" class="back-to-top">
     <i class="fas fa-arrow-up"></i>
