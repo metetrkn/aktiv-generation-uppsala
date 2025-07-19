@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.10.0
+    commands:
+      - pip install --upgrade pip
+      - pip install poetry
+      - poetry install --no-interaction --no-ansi
+
+  pre_build:
+    commands:
+      - poetry run python manage.py migrate --noinput
+      - poetry run python manage.py collectstatic --noinput
+
+  build:
+    commands:
+      - zip -r ../app.zip . -x "*.git*" "media/*" "media-/*" "*.pyc" "*__pycache__*"
+
+  post_build:
+    commands:
+      - echo "Build and packaging complete."
+
+artifacts:
+  files:
+    - ../app.zip 
