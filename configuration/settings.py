@@ -32,7 +32,7 @@ if not SECRET_KEY:
     raise ValueError("No SECRET_KEY set in environment variables")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '').lower() in ('true', '1', 't')
+DEBUG = False
 
 # List of allowed hosts for the application
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
