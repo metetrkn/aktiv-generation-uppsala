@@ -6,14 +6,15 @@ phases:
       python: 3.12.0
     commands:
       - pip install --upgrade pip
-      - curl -sSL https://install.python-poetry.org | python3 -
-      - export PATH="$HOME/.local/bin:$PATH"
-      - $HOME/.local/bin/poetry install
-      - $HOME/.local/bin/poetry install --no-interaction --no-ansi
+      # Install pipx (best way to manage Poetry)
+      - python -m pip install --user pipx
+      - python -m pipx ensurepath
+      - pipx install poetry==1.7.1  # Explicit version
+      - poetry --version  # Verify installation
+      - poetry install --no-interaction --no-ansi
 
   pre_build:
     commands:
-      - source ~/.bashrc  # Ensure PATH is set
       - poetry run python manage.py migrate --noinput
       - poetry run python manage.py collectstatic --noinput
 
