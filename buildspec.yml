@@ -6,13 +6,10 @@ phases:
       python: 3.12.0
     commands:
       - pip install --upgrade pip
-      # Install Poetry explicitly and ensure it's in PATH
-      - curl -sSL https://install.python-poetry.org | python3 - --version 1.7.1
-      - echo "export PATH=$HOME/.local/bin:$PATH" >> ~/.bashrc
-      - source ~/.bashrc  # Reload shell to apply PATH
-      - which poetry || echo "Poetry not found!"  # Debug: Check if Poetry is installed
-      - poetry --version  # Debug: Verify Poetry is callable
-      - poetry install --no-interaction --no-ansi
+      - curl -sSL https://install.python-poetry.org | python3 -
+      - export PATH="$HOME/.local/bin:$PATH"
+      - $HOME/.local/bin/poetry install
+      - $HOME/.local/bin/poetry install --no-interaction --no-ansi
 
   pre_build:
     commands:
