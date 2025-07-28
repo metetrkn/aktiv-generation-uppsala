@@ -3,19 +3,22 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.12.0
+      python: 3.12
     commands:
       - |
         pip install --upgrade pip
         curl -sSL https://install.python-poetry.org | python3 -
         export PATH="$HOME/.local/bin:$PATH"
-        poetry install
+        source ~/.bashrc  # Optional: Ensures env is refreshed if needed
+        poetry config virtualenvs.create false  # Optional: Use system env
         poetry install --no-interaction --no-ansi
 
   pre_build:
     commands:
-      - poetry run python manage.py migrate --noinput
-      - poetry run python manage.py collectstatic --noinput
+      - |
+        export PATH="$HOME/.local/bin:$PATH"
+        poetry run python manage.py migrate --noinput
+        poetry run python manage.py collectstatic --noinput
 
   build:
     commands:
@@ -27,4 +30,4 @@ phases:
 
 artifacts:
   files:
-    - ../app.zip 
+    - ../app.zip
