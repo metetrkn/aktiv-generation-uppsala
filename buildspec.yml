@@ -8,7 +8,7 @@ phases:
       - |
         pip install --upgrade pip
         curl -sSL https://install.python-poetry.org | python3 -
-        export PATH="$HOME/.local/bin:$PATH"
+        export PATH="/root/.local/bin:$PATH"
         source ~/.bashrc  # Optional: Ensures env is refreshed if needed
         poetry config virtualenvs.create false  # Optional: Use system env
         poetry install --no-interaction --no-ansi
