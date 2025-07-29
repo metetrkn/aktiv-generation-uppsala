@@ -6,28 +6,36 @@ phases:
       python: 3.12
     commands:
       - |
-        pip install --upgrade pip
-        curl -sSL https://install.python-poetry.org | python3 -
-        export PATH="/root/.local/bin:$PATH"
-        source ~/.bashrc  # Optional: Ensures env is refreshed if needed
-        poetry config virtualenvs.create false  # Optional: Use system env
-        poetry install --no-interaction --no-ansi
+        # Install Poetry from local wheel
+        pip install --no-index --find-links=./packages poetry-2.1.3-py3-none-any.whl
+      - |
+        # Force Poetry to use local wheels only
+        export PIP_NO_INDEX=1
+        export PIP_FIND_LINKS=./packages
+      - |
+        # Prevent virtualenvs (install to system env)
+        poetry config virtualenvs.create false
+      - |
+        # Install exact dependencies from poetry.lock using local wheels
+        poetry install --no-dev --no-interaction --no-ansi
 
   pre_build:
     commands:
       - |
-        export PATH="$HOME/.local/bin:$PATH"
+        # Run Django migrations and collect static files
         poetry run python manage.py migrate --noinput
         poetry run python manage.py collectstatic --noinput
 
   build:
     commands:
-      - zip -r ../app.zip . -x "*.git*" "media/*" "media-/*" "*.pyc" "*__pycache__*"
+      - |
+        # Zip project excluding unnecessary files
+        zip -r app.zip . -x "*.git*" "media/*" "media-/*" "*.pyc" "*__pycache__*" "packages/*"
 
   post_build:
     commands:
-      - echo "Build and packaging complete."
+      - echo "Offline build and packaging complete."
 
 artifacts:
   files:
-    - ../app.zip
+    - app.zip
