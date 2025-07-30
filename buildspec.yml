@@ -5,11 +5,11 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      # Debug: List extracted files (confirm packages/ exists)
-      - ls -la && ls -la packages/
+      # Debug: Confirm .whl exists
+      - ls -la packages/poetry-2.1.3-py3-none-any.whl
 
-      # Install Poetry from the already-extracted .whl
-      - pip install --no-index --find-links=./packages poetry-2.1.3-py3-none-any.whl
+      # Install Poetry (correct path)
+      - pip install --no-index --find-links=./packages ./packages/poetry-2.1.3-py3-none-any.whl
 
       # Configure Poetry
       - poetry config virtualenvs.create false
