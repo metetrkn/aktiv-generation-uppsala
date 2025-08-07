@@ -34,9 +34,6 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# List of allowed hosts for the application
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
-
 # Security Settings for production
 if not DEBUG:
     # HTTPS settings
