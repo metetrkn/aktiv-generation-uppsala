@@ -119,24 +119,18 @@ TEMPLATES = [
 # WSGI application entry point
 WSGI_APPLICATION = 'configuration.wsgi.application'
 
-# Database configuration: uses environment variables for flexibility
+# Comman database configuration for both development and production
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
         'OPTIONS': {
-            'sslmode': 'disable',  # Explicitly disable SSL for local development
-            'client_encoding': 'UTF8',  
+            'client_encoding': 'UTF8',
         }
     }
 }
 
 # Validate database configuration
-required_db_settings = ['DB_ENGINE', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']
+required_db_settings = ['DB_ENGINE_DEV', 'DB_NAME_DEV', 'DB_USER_DEV', 'DB_PASSWORD_DEV']
 missing_settings = [setting for setting in required_db_settings if not os.environ.get(setting)]
 if missing_settings:
     raise ValueError(f"Missing required database settings: {', '.join(missing_settings)}")
