@@ -16,6 +16,16 @@ if not SECRET_KEY:
 # Organization Information
 ORG_NAME = os.environ.get('ORG_NAME')
 ORG_EMAIL = os.environ.get('ORG_EMAIL')
+ORG_PHONE = os.environ.get('ORG_PHONE')
+ORG_STREET = os.environ.get('ORG_STREET')
+ORG_CITY = os.environ.get('ORG_CITY')
+ORG_COUNTRY = os.environ.get('ORG_COUNTRY')
+ORG_POSTAL_CODE = os.environ.get('ORG_POSTAL_CODE')
+ORG_URL = os.environ.get('ORG_URL')
+ORG_DESCRIPTION = os.environ.get('ORG_DESCRIPTION', 'A non-profit organization')
+ORG_YOUTUBE = os.environ.get('ORG_YOUTUBE')
+ORG_FACEBOOK = os.environ.get('ORG_FACEBOOK')
+ORG_INSTAGRAM = os.environ.get('ORG_INSTAGRAM')
 # ... (keep all other ORG_* variables)
 
 # Application definition
@@ -31,9 +41,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 
 # Templates, WSGI, URLs (keep all as is)
