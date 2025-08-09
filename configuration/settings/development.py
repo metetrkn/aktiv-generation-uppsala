@@ -3,11 +3,7 @@ from .base import *
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-INTERNAL_IPS = ["127.0.0.1"]
 
-# Debug toolbar
-INSTALLED_APPS.append('debug_toolbar')
-MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 # Database
 DATABASES['default'].update({
@@ -26,13 +22,3 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 SECURE_SSL_REDIRECT = False
-
-# Debug logging
-LOGGING['root']['level'] = 'DEBUG'
-LOGGING['loggers'] = {
-    'django': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-        'propagate': False,
-    },
-}
