@@ -26,7 +26,6 @@ ORG_DESCRIPTION = os.environ.get('ORG_DESCRIPTION', 'A non-profit organization')
 ORG_YOUTUBE = os.environ.get('ORG_YOUTUBE')
 ORG_FACEBOOK = os.environ.get('ORG_FACEBOOK')
 ORG_INSTAGRAM = os.environ.get('ORG_INSTAGRAM')
-# ... (keep all other ORG_* variables)
 
 # Application definition
 INSTALLED_APPS = [
