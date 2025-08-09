@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Project root (aktiv-generation-uppsala)
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
@@ -31,11 +32,13 @@ ORG_INSTAGRAM = os.environ.get('ORG_INSTAGRAM')
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'apps.core.apps.CoreConfig',
     'apps.mail.apps.MailConfig',
     'apps.photo.apps.PhotoConfig',
-    'django.contrib.contenttypes',
-    'django.contrib.messages',
 ]
 
 MIDDLEWARE = [
