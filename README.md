@@ -279,7 +279,10 @@ The application will be available at [http://127.0.0.1:8000/](http://127.0.0.1:8
 
 ### Superuser/Admin Account 👤
 
-To access the Django admin panel, create a superuser:
+To access the Django admin panel, create a superuser and use this credentials to sign-in this admin url:
+```
+your_base_local_url/
+---
 
 ```sh
 poetry run python manage.py createsuperuser
