@@ -3,6 +3,9 @@ import os
 
 DEBUG = False
 
+# Email system does not crash if email fails to send in production
+FAIL_SILENTLY = True
+
 # Security settings
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 SESSION_COOKIE_SECURE = True

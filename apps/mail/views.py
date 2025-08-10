@@ -86,7 +86,7 @@ def mail_us(request):
                 recipient_list=[
                     settings.ORG_EMAIL
                 ],  # This is where you'll receive the messages
-                fail_silently=False,
+                fail_silently=os.environ.get('FAIL_SILENTLY', False),
             )
             messages.success(
                 request, "Tack för ditt meddelande! Vi återkommer så snart som möjligt."
