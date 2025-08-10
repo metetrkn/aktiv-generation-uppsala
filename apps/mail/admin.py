@@ -20,8 +20,11 @@ from django.contrib import admin, messages
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils.html import format_html
-
 from .models import AdminReply, Message
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +88,7 @@ class MessageAdmin(admin.ModelAdmin):
                         ),
                         from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[obj.email],
-                        fail_silently=False,
+                        fail_silently=os.environ.get('FAIL_SILENTLY', False),
                     )
                     logger.info("Email sent successfully")
                 except Exception as e:
@@ -157,7 +160,7 @@ class AdminReplyAdmin(admin.ModelAdmin):
                     message=obj.message,
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[original_message.email],
-                    fail_silently=False,
+                    fail_silently=os.environ.get('FAIL_SILENTLY', False),
                 )
 
                 # Update the reply in the database
