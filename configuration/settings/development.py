@@ -1,6 +1,17 @@
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load .env file first
+env_path = Path(__file__).resolve().parent.parent / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
+
+# Now import base settings
 from .base import *
 
 DEBUG = True
+
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
