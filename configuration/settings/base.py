@@ -3,9 +3,12 @@ Common Django settings shared by both production and development environments
 """
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Only load .env in development
+if os.getenv("DJANGO_ENV", "development") != "production":
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
 
 # Project root (aktiv-generation-uppsala)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
