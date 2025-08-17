@@ -15,25 +15,7 @@ manage the core application's data.
 
 from django.contrib import admin
 
-from .models import Activity, Organization, ActivityImage
-
-
-@admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "phone", "city", "updated_at")
-    search_fields = ("name", "email", "phone", "city")
-    list_filter = ("city", "country")
-    readonly_fields = ("created_at", "updated_at")
-    fieldsets = (
-        ("Basic Information", {"fields": ("name", "email", "phone", "description")}),
-        ("Address", {"fields": ("street", "city", "country", "postal_code")}),
-        ("Social Media", {"fields": ("url", "youtube", "facebook", "instagram")}),
-        ("Media", {"fields": ("logo",)}),
-        (
-            "Timestamps",
-            {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
-        ),
-    )
+from .models import Activity, ActivityImage
 
 
 class ActivityImageInline(admin.TabularInline):

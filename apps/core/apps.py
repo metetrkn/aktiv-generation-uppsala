@@ -7,7 +7,7 @@ including its name and any app-specific settings.
 
 The core app is responsible for:
 - Basic site functionality
-- Organization information
+- Activity management
 - Common templates and static files
 """
 
