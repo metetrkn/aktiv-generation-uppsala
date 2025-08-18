@@ -152,7 +152,6 @@ coverage.xml
 # Static files
 staticfiles/
 media/
-packages/
 
 # TODO
 TODO.md
