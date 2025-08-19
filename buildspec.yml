@@ -5,26 +5,35 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      # Install Poetry (correct path)
-      - pip install --no-index --find-links=./packages ./packages/poetry-2.1.3-py3-none-any.whl
+      # Install Poetry from S3 wheels
+      - pip install --no-index --find-links=https://my-dependency-bucket.s3.amazonaws.com/wheels poetry
 
+      # Use S3 wheels only
       # Configure Poetry
       - poetry config virtualenvs.create false
       - export PIP_NO_INDEX=1
-      - export PIP_FIND_LINKS=./packages
-      - yum install -y postgresql-devel
-      - poetry install --without dev --no-interaction --no-ansi
+      - export PIP_FIND_LINKS=https://my-dependency-bucket.s3.amazonaws.com/wheels
 
+      # System deps (for psycopg2 and PostgreSQL support)
+      - yum install -y postgresql-devel
+
+      # Install project dependencies
+      - poetry install --without dev --no-interaction --no-ansi
 
   pre_build:
     commands:
+      # Run migrations and collect static files
       - poetry run python manage.py migrate --noinput
       - poetry run python manage.py collectstatic --noinput
 
   build:
     commands:
+      # Package app for Elastic Beanstalk
       - zip -r app.zip . -x "*.git*" "media/*" "*.pyc" "*__pycache__*" "packages/*"
 
   post_build:
     commands:
-      - echo "Build completed."
+      - echo "Build completed successfully."
+artifacts:
+  files:
+    - app.zip
