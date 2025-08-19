@@ -6,13 +6,13 @@ phases:
       python: 3.12
     commands:
       # Install Poetry from S3 wheels
-      - pip install --no-index --find-links=https://my-dependency-bucket.s3.amazonaws.com/wheels poetry
+      - pip install --no-index --find-links=https://wheels-aktiv-gen.s3.eu-north-1.amazonaws.com/packages/ poetry
 
       # Use S3 wheels only
       # Configure Poetry
       - poetry config virtualenvs.create false
       - export PIP_NO_INDEX=1
-      - export PIP_FIND_LINKS=https://my-dependency-bucket.s3.amazonaws.com/wheels
+      - export PIP_FIND_LINKS=https://wheels-aktiv-gen.s3.eu-north-1.amazonaws.com/packages
 
       # System deps (for psycopg2 and PostgreSQL support)
       - yum install -y postgresql-devel
