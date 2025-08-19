@@ -227,12 +227,9 @@ cp .env.example .env
 ```
 
 ### Media - Images ⚙️
-```sh
-move "media-" "media"
-# Change media- folder (contains mock images) name to media, mock images can be replaced via admin interface photos application
 
+Change media_sample and other subdirs that contains "_sample" folders name to remove "_sample" from their names. Change the mock images can be replaced via admin interface photos application
 
----
 
 ### Database Setup 🗄️
 
