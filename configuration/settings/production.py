@@ -40,7 +40,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Additional production-only apps
 INSTALLED_APPS.extend([
-    # Any production-specific apps
+    "storages",
 ])
 
 # Production logging
@@ -49,4 +49,12 @@ LOGGING['handlers']['file'] = {
     'class': 'logging.FileHandler',
     'filename': '/var/log/django/app.log',
 }
+
 LOGGING['root']['handlers'].append('file')
+
+# Use custom S3 storages
+STATICFILES_STORAGE = "storages_backend.StaticStorage"
+DEFAULT_FILE_STORAGE = "storages_backend.MediaStorage"
+
+STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/"
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/"

@@ -3,27 +3,23 @@ Common Django settings shared by both production and development environments
 """
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
-# Project root (aktiv-generation-uppsala)
+
+# Project root
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Load .env file
+load_dotenv(BASE_DIR / ".env")
+
+# Static files (collected by collectstatic), Local fallbacks
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError("No SECRET_KEY set in environment variables")
-
-# Organization Information
-ORG_NAME = os.environ.get('ORG_NAME')
-ORG_EMAIL = os.environ.get('ORG_EMAIL')
-ORG_PHONE = os.environ.get('ORG_PHONE')
-ORG_STREET = os.environ.get('ORG_STREET')
-ORG_CITY = os.environ.get('ORG_CITY')
-ORG_COUNTRY = os.environ.get('ORG_COUNTRY')
-ORG_POSTAL_CODE = os.environ.get('ORG_POSTAL_CODE')
-ORG_URL = os.environ.get('ORG_URL')
-ORG_DESCRIPTION = os.environ.get('ORG_DESCRIPTION', 'A non-profit organization')
-ORG_YOUTUBE = os.environ.get('ORG_YOUTUBE')
-ORG_FACEBOOK = os.environ.get('ORG_FACEBOOK')
-ORG_INSTAGRAM = os.environ.get('ORG_INSTAGRAM')
 
 # Application definition
 INSTALLED_APPS = [
@@ -36,6 +32,7 @@ INSTALLED_APPS = [
     'apps.core.apps.CoreConfig',
     'apps.mail.apps.MailConfig',
     'apps.photo.apps.PhotoConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +42,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
-# Templates, WSGI, URLs (keep all as is)
 ROOT_URLCONF = 'configuration.urls'
 WSGI_APPLICATION = 'configuration.wsgi.application'
 TEMPLATES = [
@@ -65,7 +61,6 @@ TEMPLATES = [
     },
 ]
 
-# Database (basic config only)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -76,24 +71,17 @@ DATABASES = {
 # Password validation (keep as is)
 AUTH_PASSWORD_VALIDATORS = [ ... ]
 
-# Internationalization (keep as is)
+# Internationalization
 LANGUAGE_CODE = 'sv'
 TIME_ZONE = 'Europe/Stockholm'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static and media files (keep as is)
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'apps' / 'core' / 'static']
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 # Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Logging (basic config)
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -106,4 +94,16 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     }
+}
+
+# S3 shared config (used in prod)
+AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
+AWS_QUERYSTRING_AUTH = os.environ.get("AWS_QUERYSTRING_AUTH")
+
+AWS_DEFAULT_ACL = None
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=31536000, public",
 }
